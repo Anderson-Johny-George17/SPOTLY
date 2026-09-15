@@ -1,0 +1,1341 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{##}
+{#<head>#}
+{#  <meta charset="utf-8">#}
+{#  <meta content="width=device-width, initial-scale=1.0" name="viewport">#}
+{#  <title>Police Portal - Spotly</title>#}
+{##}
+{#  <!-- Bootstrap CSS -->#}
+{#  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">#}
+{##}
+{#  <!-- Font Awesome -->#}
+{#  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">#}
+{##}
+{#  <!-- Custom CSS -->#}
+{#  <style>#}
+{#    /* Police Portal Design Variables */#}
+{#    :root {#}
+{#      --primary: #4361ee;#}
+{#      --primary-dark: #3a0ca3;#}
+{#      --secondary: #7209b7;#}
+{#      --success: #4cc9f0;#}
+{#      --danger: #e63946;#}
+{#      --warning: #f8961e;#}
+{#      --info: #4895ef;#}
+{#      --light: #f8f9fa;#}
+{#      --dark: #212529;#}
+{#      --gray: #6c757d;#}
+{#      --light-gray: #e9ecef;#}
+{#      --border-radius: 16px;#}
+{#      --shadow: 0 15px 40px rgba(0, 0, 0, 0.1);#}
+{#      --gradient: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);#}
+{#      --transition: all 0.3s ease;#}
+{#    }#}
+{##}
+{#    /* Police Header Design */#}
+{#    .header {#}
+{#      background: white;#}
+{#      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);#}
+{#      position: fixed;#}
+{#      top: 0;#}
+{#      right: 0;#}
+{#      left: 0;#}
+{#      z-index: 1030;#}
+{#      transition: var(--transition);#}
+{#      border-bottom: 1px solid rgba(67, 97, 238, 0.1);#}
+{#    }#}
+{##}
+{#    /* Top Row - Police Branding */#}
+{#    .top-row {#}
+{#      padding: 10px 0;#}
+{#      height: 80px;#}
+{#      display: flex;#}
+{#      align-items: center;#}
+{#      justify-content: space-between;#}
+{#    }#}
+{##}
+{#    /* Logo Container */#}
+{#    .logo {#}
+{#      text-decoration: none;#}
+{#      display: flex;#}
+{#      align-items: center;#}
+{#      gap: 15px;#}
+{#    }#}
+{##}
+{#    /* Logo Badge with Icon */#}
+{#    .logo-badge {#}
+{#      width: 50px;#}
+{#      height: 50px;#}
+{#      background: var(--gradient);#}
+{#      border-radius: 12px;#}
+{#      display: flex;#}
+{#      align-items: center;#}
+{#      justify-content: center;#}
+{#      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.25);#}
+{#    }#}
+{##}
+{#    .logo-badge i {#}
+{#      color: white;#}
+{#      font-size: 26px;#}
+{#    }#}
+{##}
+{#    /* Logo Text */#}
+{#    .logo-text {#}
+{#      display: flex;#}
+{#      flex-direction: column;#}
+{#    }#}
+{##}
+{#    .logo-text .sitename {#}
+{#      font-family: 'Montserrat', sans-serif;#}
+{#      font-weight: 800;#}
+{#      font-size: 24px;#}
+{#      background: var(--gradient);#}
+{#      -webkit-background-clip: text;#}
+{#      -webkit-text-fill-color: transparent;#}
+{#      background-clip: text;#}
+{#      margin: 0;#}
+{#      letter-spacing: 0.5px;#}
+{#    }#}
+{##}
+{#    .logo-text .tagline {#}
+{#      font-family: 'Roboto', sans-serif;#}
+{#      font-size: 11px;#}
+{#      color: var(--gray);#}
+{#      font-weight: 500;#}
+{#      letter-spacing: 1px;#}
+{#      margin-top: -3px;#}
+{#    }#}
+{##}
+{#    /* Officer Badge in Top Right */#}
+{#    .officer-badge {#}
+{#      background: var(--gradient);#}
+{#      color: white;#}
+{#      padding: 8px 20px;#}
+{#      border-radius: 20px;#}
+{#      font-weight: 600;#}
+{#      font-size: 14px;#}
+{#      display: flex;#}
+{#      align-items: center;#}
+{#      gap: 8px;#}
+{#      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.25);#}
+{#      margin-right: 15px;#}
+{#    }#}
+{##}
+{#    .officer-badge i {#}
+{#      font-size: 16px;#}
+{#    }#}
+{##}
+{#    /* Navigation Menu - Police Style */#}
+{#    .nav-wrap {#}
+{#      background: var(--gradient);#}
+{#      padding: 0;#}
+{#    }#}
+{##}
+{#    /* Custom Navigation Styles */#}
+{#    .navbar-custom {#}
+{#      padding: 0;#}
+{#    }#}
+{##}
+{#    .navbar-custom .navbar-nav .nav-link {#}
+{#      color: white;#}
+{#      padding: 12px 20px;#}
+{#      font-size: 15px;#}
+{#      font-weight: 600;#}
+{#      border-radius: 8px;#}
+{#      transition: var(--transition);#}
+{#      display: flex;#}
+{#      align-items: center;#}
+{#      gap: 8px;#}
+{#    }#}
+{##}
+{#    .navbar-custom .navbar-nav .nav-link:hover {#}
+{#      background: rgba(255, 255, 255, 0.15);#}
+{#      color: white;#}
+{#      transform: translateY(-2px);#}
+{#    }#}
+{##}
+{#    .navbar-custom .navbar-nav .active > .nav-link {#}
+{#      background: rgba(255, 255, 255, 0.15);#}
+{#      color: white;#}
+{#    }#}
+{##}
+{#    /* Dropdown Styles */#}
+{#    .navbar-custom .dropdown-menu {#}
+{#      background: white;#}
+{#      border: 1px solid rgba(67, 97, 238, 0.1);#}
+{#      border-radius: 12px;#}
+{#      box-shadow: var(--shadow);#}
+{#      padding: 10px 0;#}
+{#      min-width: 220px;#}
+{#      margin-top: 10px;#}
+{#    }#}
+{##}
+{#    .navbar-custom .dropdown-item {#}
+{#      padding: 10px 20px;#}
+{#      color: var(--dark);#}
+{#      font-size: 14px;#}
+{#      font-weight: 500;#}
+{#      display: flex;#}
+{#      align-items: center;#}
+{#      gap: 10px;#}
+{#      transition: var(--transition);#}
+{#    }#}
+{##}
+{#    .navbar-custom .dropdown-item i {#}
+{#      color: var(--primary);#}
+{#      width: 20px;#}
+{#      text-align: center;#}
+{#    }#}
+{##}
+{#    .navbar-custom .dropdown-item:hover {#}
+{#      background: rgba(67, 97, 238, 0.1);#}
+{#      color: var(--primary);#}
+{#    }#}
+{##}
+{#    /* Mobile Navigation Toggle */#}
+{#    .navbar-toggler-custom {#}
+{#      color: var(--primary);#}
+{#      font-size: 28px;#}
+{#      border: none;#}
+{#      background: rgba(67, 97, 238, 0.1);#}
+{#      width: 40px;#}
+{#      height: 40px;#}
+{#      border-radius: 10px;#}
+{#      display: flex;#}
+{#      align-items: center;#}
+{#      justify-content: center;#}
+{#    }#}
+{##}
+{#    .navbar-toggler-custom:hover {#}
+{#      background: var(--gradient);#}
+{#      color: white;#}
+{#    }#}
+{##}
+{#    /* Social Links - Police Theme */#}
+{#    .social-links {#}
+{#      display: flex;#}
+{#      align-items: center;#}
+{#      gap: 12px;#}
+{#    }#}
+{##}
+{#    .social-links a {#}
+{#      display: inline-flex;#}
+{#      align-items: center;#}
+{#      justify-content: center;#}
+{#      width: 40px;#}
+{#      height: 40px;#}
+{#      background: rgba(67, 97, 238, 0.1);#}
+{#      color: var(--primary);#}
+{#      border-radius: 50%;#}
+{#      font-size: 16px;#}
+{#      transition: var(--transition);#}
+{#      text-decoration: none;#}
+{#    }#}
+{##}
+{#    .social-links a:hover {#}
+{#      background: var(--gradient);#}
+{#      color: white;#}
+{#      transform: translateY(-3px);#}
+{#    }#}
+{##}
+{#    /* Responsive Design */#}
+{#    @media (max-width: 992px) {#}
+{#      .top-row {#}
+{#        height: 70px;#}
+{#      }#}
+{##}
+{#      .nav-wrap {#}
+{#        padding: 10px 0;#}
+{#      }#}
+{##}
+{#      .navbar-custom .navbar-nav {#}
+{#        padding: 10px 0;#}
+{#      }#}
+{##}
+{#      .navbar-custom .nav-link {#}
+{#        padding: 10px 15px;#}
+{#      }#}
+{##}
+{#      .navbar-custom .dropdown-menu {#}
+{#        background: rgba(255, 255, 255, 0.95);#}
+{#        border: none;#}
+{#        box-shadow: none;#}
+{#        margin-top: 5px;#}
+{#        margin-left: 20px;#}
+{#      }#}
+{##}
+{#      .officer-badge {#}
+{#        display: none;#}
+{#      }#}
+{##}
+{#      .logo-badge {#}
+{#        width: 45px;#}
+{#        height: 45px;#}
+{#      }#}
+{##}
+{#      .logo-badge i {#}
+{#        font-size: 22px;#}
+{#      }#}
+{##}
+{#      .logo-text .sitename {#}
+{#        font-size: 22px;#}
+{#      }#}
+{##}
+{#      .logo-text .tagline {#}
+{#        font-size: 10px;#}
+{#      }#}
+{#    }#}
+{##}
+{#    @media (max-width: 768px) {#}
+{#      .social-links {#}
+{#        gap: 8px;#}
+{#      }#}
+{##}
+{#      .social-links a {#}
+{#        width: 36px;#}
+{#        height: 36px;#}
+{#        font-size: 14px;#}
+{#      }#}
+{#    }#}
+{##}
+{#    @media (max-width: 576px) {#}
+{#      .logo {#}
+{#        gap: 12px;#}
+{#      }#}
+{##}
+{#      .logo-badge {#}
+{#        width: 40px;#}
+{#        height: 40px;#}
+{#      }#}
+{##}
+{#      .logo-badge i {#}
+{#        font-size: 20px;#}
+{#      }#}
+{##}
+{#      .logo-text .sitename {#}
+{#        font-size: 20px;#}
+{#      }#}
+{##}
+{#      .logo-text .tagline {#}
+{#        font-size: 9px;#}
+{#        letter-spacing: 0.5px;#}
+{#      }#}
+{##}
+{#      .social-links a {#}
+{#        width: 32px;#}
+{#        height: 32px;#}
+{#        font-size: 13px;#}
+{#      }#}
+{##}
+{#      .navbar-toggler-custom {#}
+{#        width: 36px;#}
+{#        height: 36px;#}
+{#        font-size: 24px;#}
+{#      }#}
+{#    }#}
+{##}
+{#    /* Add some spacing to body for fixed header */#}
+{#    body {#}
+{#      padding-top: 80px;#}
+{#    }#}
+{##}
+{#    @media (max-width: 992px) {#}
+{#      body {#}
+{#        padding-top: 70px;#}
+{#      }#}
+{#    }#}
+{#  </style>#}
+{#</head>#}
+{##}
+{#<body class="index-page">#}
+{##}
+{#  <header id="header" class="header fixed-top">#}
+{#    <div class="container-fluid">#}
+{#      <div class="top-row">#}
+{#        <a href="/myapp/police_home/" class="logo d-flex align-items-center">#}
+{#          <!-- Logo Badge with Icon -->#}
+{#          <div class="logo-badge">#}
+{#            <i class="fas fa-shield-alt"></i>#}
+{#          </div>#}
+{##}
+{#          <!-- Logo Text -->#}
+{#          <div class="logo-text">#}
+{#            <h1 class="sitename">Police Portal</h1>#}
+{#            <div class="tagline">SECURITY & PROTECTION</div>#}
+{#          </div>#}
+{#        </a>#}
+{##}
+{#        <div class="d-flex align-items-center">#}
+{#          <!-- Officer Badge -->#}
+{#          <div class="officer-badge d-none d-md-flex">#}
+{#            <i class="fas fa-user-shield"></i>#}
+{#            <span>Officer Dashboard</span>#}
+{#          </div>#}
+{##}
+{#          <div class="social-links">#}
+{#            <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>#}
+{#            <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>#}
+{#            <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>#}
+{#          </div>#}
+{##}
+{#          <!-- Bootstrap Navbar Toggler -->#}
+{#          <button class="navbar-toggler-custom d-lg-none ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">#}
+{#            <i class="fas fa-bars"></i>#}
+{#          </button>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#    <div class="nav-wrap">#}
+{#      <div class="container-fluid">#}
+{#        <nav class="navbar navbar-expand-lg navbar-custom p-0">#}
+{#          <div class="collapse navbar-collapse" id="navbarNavDropdown">#}
+{#            <ul class="navbar-nav mx-auto">#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link active" href="/myapp/police_home/">#}
+{#                  <i class="fas fa-home"></i> Home#}
+{#                </a>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="#about">#}
+{#                  <i class="fas fa-info-circle"></i> About#}
+{#                </a>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="/myapp/police_change_pass_get">#}
+{#                  <i class="fas fa-key"></i> Change Password#}
+{#                </a>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="/myapp/police_view_stolen">#}
+{#                  <i class="fas fa-concierge-bell"></i> view stolen report#}
+{#                </a>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="#team">#}
+{#                  <i class="fas fa-users"></i> Team#}
+{#                </a>#}
+{#              </li>#}
+{#              <li class="nav-item dropdown">#}
+{#                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">#}
+{#                  <i class="fas fa-file-alt"></i> Complaint#}
+{#                </a>#}
+{#                <ul class="dropdown-menu">#}
+{#                  <!-- All three complaint buttons directly in the dropdown -->#}
+{#                  <li>#}
+{#                    <a class="dropdown-item" href="/myapp/police_view_complaints/">#}
+{#                      <i class="fas fa-eye"></i> View Complaints#}
+{#                    </a>#}
+{#                  </li>#}
+{#                  <li>#}
+{#                    <a class="dropdown-item" href="/myapp/police_sent_complaint_get/">#}
+{#                      <i class="fas fa-paper-plane"></i> Sent Complaints#}
+{#                    </a>#}
+{#                  </li>#}
+{#                  <li>#}
+{#                    <a class="dropdown-item" href="/myapp/police_reply_get/">#}
+{#                      <i class="fas fa-reply"></i> Reply Complaints#}
+{#                    </a>#}
+{#                  </li>#}
+{#                </ul>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="#contact">#}
+{#                  <i class="fas fa-address-book"></i> Contact#}
+{#                </a>#}
+{#              </li>#}
+{#            </ul>#}
+{#          </div>#}
+{#        </nav>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#  </header>#}
+{##}
+{#  <!-- Bootstrap JS Bundle -->#}
+{#  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>#}
+{##}
+{#  <!-- Custom JavaScript -->#}
+{#  <script>#}
+{#    document.addEventListener('DOMContentLoaded', function() {#}
+{#      // Highlight active link#}
+{#      const currentUrl = window.location.pathname;#}
+{#      const navLinks = document.querySelectorAll('.navbar-custom .nav-link');#}
+{##}
+{#      navLinks.forEach(link => {#}
+{#        if (link.getAttribute('href') === currentUrl) {#}
+{#          link.classList.add('active');#}
+{#          // Also mark parent dropdown as active if it's a dropdown item#}
+{#          const dropdownItem = link.closest('.dropdown-item');#}
+{#          if (dropdownItem) {#}
+{#            const dropdownToggle = dropdownItem.closest('.dropdown').querySelector('.dropdown-toggle');#}
+{#            if (dropdownToggle) {#}
+{#              dropdownToggle.classList.add('active');#}
+{#            }#}
+{#          }#}
+{#        } else {#}
+{#          link.classList.remove('active');#}
+{#        }#}
+{#      });#}
+{##}
+{#      // Close mobile menu when clicking on a link#}
+{#      const navbarCollapse = document.getElementById('navbarNavDropdown');#}
+{#      const navItems = document.querySelectorAll('.navbar-custom .nav-link');#}
+{##}
+{#      navItems.forEach(item => {#}
+{#        item.addEventListener('click', () => {#}
+{#          if (window.innerWidth <= 992) {#}
+{#            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {#}
+{#              toggle: false#}
+{#            });#}
+{#            bsCollapse.hide();#}
+{#          }#}
+{#        });#}
+{#      });#}
+{#    });#}
+{#  </script>#}
+{##}
+{#</body>#}
+{#</html>#}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Police Portal - Spotly</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <style>
+    /* Police Portal Design Variables */
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #7209b7;
+      --success: #4cc9f0;
+      --danger: #e63946;
+      --warning: #f8961e;
+      --info: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 16px;
+      --shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      --gradient: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+      --transition: all 0.3s ease;
+    }
+
+    /* Police Header Design */
+    .header {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1030;
+      transition: var(--transition);
+      border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    /* Top Row - Police Branding */
+    .top-row {
+      padding: 10px 0;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Logo Container */
+    .logo {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    /* Logo Badge with Icon */
+    .logo-badge {
+      width: 50px;
+      height: 50px;
+      background: var(--gradient);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.25);
+    }
+
+    .logo-badge i {
+      color: white;
+      font-size: 26px;
+    }
+
+    /* Logo Text */
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text .sitename {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-text .tagline {
+      font-family: 'Roboto', sans-serif;
+      font-size: 11px;
+      color: var(--gray);
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-top: -3px;
+    }
+
+    /* Officer Badge with Logout in Top Right */
+    .officer-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .officer-badge {
+      background: var(--gradient);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.25);
+      position: relative;
+    }
+
+    .officer-badge i {
+      font-size: 16px;
+    }
+
+    .logout-btn {
+      background: linear-gradient(135deg, #e63946, #d00000);
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(230, 57, 70, 0.25);
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.35);
+      color: white;
+    }
+
+    /* Navigation Menu - Police Style */
+    .nav-wrap {
+      background: var(--gradient);
+      padding: 0;
+    }
+
+    /* Custom Navigation Styles */
+    .navbar-custom {
+      padding: 0;
+    }
+
+    .navbar-custom .navbar-nav .nav-link {
+      color: white;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navbar-custom .navbar-nav .nav-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .navbar-custom .navbar-nav .active > .nav-link {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    /* Dropdown Styles */
+    .navbar-custom .dropdown-menu {
+      background: white;
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 10px 0;
+      min-width: 220px;
+      margin-top: 10px;
+    }
+
+    .navbar-custom .dropdown-item {
+      padding: 10px 20px;
+      color: var(--dark);
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+
+    .navbar-custom .dropdown-item i {
+      color: var(--primary);
+      width: 20px;
+      text-align: center;
+    }
+
+    .navbar-custom .dropdown-item:hover {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+    }
+
+    /* Mobile Navigation Toggle */
+    .navbar-toggler-custom {
+      color: var(--primary);
+      font-size: 28px;
+      border: none;
+      background: rgba(67, 97, 238, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .navbar-toggler-custom:hover {
+      background: var(--gradient);
+      color: white;
+    }
+
+    /* Social Links - Police Theme */
+    .social-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      border-radius: 50%;
+      font-size: 16px;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .social-links a:hover {
+      background: var(--gradient);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* About Section Modal Styling */
+    .modal-content {
+      border-radius: var(--border-radius);
+      border: none;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-header {
+      background: var(--gradient);
+      color: white;
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      padding: 25px 30px;
+      border-bottom: none;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-body {
+      padding: 30px;
+      background: #f8f9ff;
+    }
+
+    .about-content {
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .about-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .about-content::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    .about-content::-webkit-scrollbar-thumb {
+      background: var(--gradient);
+      border-radius: 4px;
+    }
+
+    .about-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    .about-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .about-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(67, 97, 238, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .about-icon i {
+      color: var(--primary);
+      font-size: 22px;
+    }
+
+    .about-text h4 {
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .about-text p {
+      color: var(--gray);
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    .contact-info {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-top: 20px;
+      border: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    .contact-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient);
+      color: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-details {
+      flex-grow: 1;
+    }
+
+    .contact-label {
+      font-size: 12px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .contact-value {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 15px;
+    }
+
+    .modal-footer {
+      border-top: 1px solid rgba(67, 97, 238, 0.1);
+      padding: 20px 30px;
+      background: white;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+    }
+
+    .btn-close-custom {
+      background: var(--gradient);
+      color: white;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .btn-close-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.25);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .top-row {
+        height: 70px;
+      }
+
+      .nav-wrap {
+        padding: 10px 0;
+      }
+
+      .navbar-custom .navbar-nav {
+        padding: 10px 0;
+      }
+
+      .navbar-custom .nav-link {
+        padding: 10px 15px;
+      }
+
+      .navbar-custom .dropdown-menu {
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        box-shadow: none;
+        margin-top: 5px;
+        margin-left: 20px;
+      }
+
+      .officer-section {
+        gap: 10px;
+      }
+
+      .officer-badge, .logout-btn {
+        padding: 6px 15px;
+        font-size: 13px;
+      }
+
+      .logo-badge {
+        width: 45px;
+        height: 45px;
+      }
+
+      .logo-badge i {
+        font-size: 22px;
+      }
+
+      .logo-text .sitename {
+        font-size: 22px;
+      }
+
+      .logo-text .tagline {
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .social-links {
+        gap: 8px;
+      }
+
+      .social-links a {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+      }
+
+      .officer-section {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+      }
+
+      .officer-badge, .logout-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .logo {
+        gap: 12px;
+      }
+
+      .logo-badge {
+        width: 40px;
+        height: 40px;
+      }
+
+      .logo-badge i {
+        font-size: 20px;
+      }
+
+      .logo-text .sitename {
+        font-size: 20px;
+      }
+
+      .logo-text .tagline {
+        font-size: 9px;
+        letter-spacing: 0.5px;
+      }
+
+      .social-links {
+        display: none;
+      }
+
+      .navbar-toggler-custom {
+        width: 36px;
+        height: 36px;
+        font-size: 24px;
+      }
+
+      .modal-dialog {
+        margin: 10px;
+      }
+
+      .modal-header, .modal-body, .modal-footer {
+        padding: 20px;
+      }
+    }
+
+    /* Add some spacing to body for fixed header */
+    body {
+      padding-top: 80px;
+    }
+
+    @media (max-width: 992px) {
+      body {
+        padding-top: 70px;
+      }
+    }
+  </style>
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid">
+      <div class="top-row">
+        <a href="/myapp/police_home/" class="logo d-flex align-items-center">
+          <!-- Logo Badge with Icon -->
+          <div class="logo-badge">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+
+          <!-- Logo Text -->
+          <div class="logo-text">
+            <h1 class="sitename">Police Portal</h1>
+            <div class="tagline">SECURITY & PROTECTION</div>
+          </div>
+        </a>
+
+        <div class="d-flex align-items-center">
+          <!-- Officer Section with Badge and Logout -->
+          <div class="officer-section">
+            <div class="officer-badge d-none d-md-flex">
+              <i class="fas fa-user-shield"></i>
+              <span>Officer Dashboard</span>
+            </div>
+
+            <!-- Logout Button -->
+            <a href="/myapp/login_get/" class="logout-btn">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </a>
+          </div>
+
+          <div class="social-links d-none d-md-flex">
+            <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+          </div>
+
+          <!-- Bootstrap Navbar Toggler -->
+          <button class="navbar-toggler-custom d-lg-none ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-wrap">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-custom p-0">
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mx-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="/myapp/police_home/">
+                  <i class="fas fa-home"></i> Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/myapp/about_spotly" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                  <i class="fas fa-info-circle"></i> About
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/myapp/police_change_pass_get">
+                  <i class="fas fa-key"></i> Change Password
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/myapp/police_view_stolen">
+                  <i class="fas fa-concierge-bell"></i> View Stolen Reports
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                  <i class="fas fa-file-alt"></i> Complaint
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/myapp/police_view_complaints/">
+                      <i class="fas fa-eye"></i> View Complaints
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/myapp/police_sent_complaint_get/">
+                      <i class="fas fa-paper-plane"></i> Sent Complaints
+                    </a>
+                  </li>
+                  <li>
+{#                    <a class="dropdown-item" href="/myapp/police_reply_get/">#}
+{#                      <i class="fas fa-reply"></i> Reply Complaints#}
+{#                    </a>#}
+                  </li>
+                </ul>
+              </li>
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="about.html">#}
+{#                  <i class="fas fa-address-book"></i> Contact#}
+{#                </a>#}
+{#              </li>#}
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- About Modal -->
+  <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="aboutModalLabel">
+            <i class="fas fa-shield-alt"></i> About Police Portal
+          </h2>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="about-content">
+            <div class="about-item">
+              <div class="about-icon">
+                <i class="fas fa-bullseye"></i>
+              </div>
+              <div class="about-text">
+                <h4>Our Mission</h4>
+                <p>To provide a secure, efficient, and user-friendly platform for law enforcement officers to manage stolen vehicle reports, handle complaints, and enhance public safety through digital solutions.</p>
+              </div>
+            </div>
+
+            <div class="about-item">
+              <div class="about-icon">
+                <i class="fas fa-eye"></i>
+              </div>
+              <div class="about-text">
+                <h4>Vision</h4>
+                <p>To become the leading digital platform for police departments nationwide, revolutionizing how law enforcement interacts with citizens and manages security operations.</p>
+              </div>
+            </div>
+
+            <div class="about-item">
+              <div class="about-icon">
+                <i class="fas fa-tachometer-alt"></i>
+              </div>
+              <div class="about-text">
+                <h4>Key Features</h4>
+                <p>• Real-time stolen vehicle tracking and reporting<br>
+                   • Complaint management system<br>
+                   • Secure officer dashboard<br>
+                   • Evidence management<br>
+                   • Public safety alerts<br>
+                   • Case management tools</p>
+              </div>
+            </div>
+
+            <div class="contact-info">
+              <h5 class="mb-4 text-center" style="color: var(--primary);">
+                <i class="fas fa-address-card me-2"></i>Contact Information
+              </h5>
+
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="contact-details">
+                  <div class="contact-label">Headquarters</div>
+                  <div class="contact-value">123 Police Plaza, City Center, State 12345</div>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-phone"></i>
+                </div>
+                <div class="contact-details">
+                  <div class="contact-label">Emergency Hotline</div>
+                  <div class="contact-value">100 / 112 (24/7 Emergency)</div>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div class="contact-details">
+                  <div class="contact-label">Email Support</div>
+                  <div class="contact-value">support@policeportal.gov</div>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div class="contact-details">
+                  <div class="contact-label">Working Hours</div>
+                  <div class="contact-value">24/7 Operations Center</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-close-custom" data-bs-dismiss="modal">
+            <i class="fas fa-times me-2"></i>Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Highlight active link
+      const currentUrl = window.location.pathname;
+      const navLinks = document.querySelectorAll('.navbar-custom .nav-link');
+
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentUrl) {
+          link.classList.add('active');
+          // Also mark parent dropdown as active if it's a dropdown item
+          const dropdownItem = link.closest('.dropdown-item');
+          if (dropdownItem) {
+            const dropdownToggle = dropdownItem.closest('.dropdown').querySelector('.dropdown-toggle');
+            if (dropdownToggle) {
+              dropdownToggle.classList.add('active');
+            }
+          }
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      // Close mobile menu when clicking on a link
+      const navbarCollapse = document.getElementById('navbarNavDropdown');
+      const navItems = document.querySelectorAll('.navbar-custom .nav-link');
+
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          if (window.innerWidth <= 992) {
+            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+              toggle: false
+            });
+            bsCollapse.hide();
+          }
+        });
+      });
+
+      // About modal show event
+      const aboutModal = document.getElementById('aboutModal');
+      if (aboutModal) {
+        aboutModal.addEventListener('show.bs.modal', function() {
+          console.log('About modal opened');
+        });
+      }
+
+      // Logout confirmation
+      const logoutBtn = document.querySelector('.logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+          if (!confirm('Are you sure you want to logout?')) {
+            e.preventDefault();
+          }
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

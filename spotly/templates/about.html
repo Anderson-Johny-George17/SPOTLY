@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - Spotly</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary: #7209b7;
+            --success: #4cc9f0;
+            --danger: #e63946;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --dark-bg: #0f172a;
+            --dark-light: #1e293b;
+            --border-radius: 16px;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)),
+                        url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0 80px;
+            margin-bottom: 60px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* Mission Vision Cards */
+        .mission-card, .vision-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .mission-card:hover, .vision-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card-icon i {
+            color: white;
+            font-size: 30px;
+        }
+
+        .mission-card h3, .vision-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .mission-card p, .vision-card p {
+            color: #666;
+            text-align: center;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        /* Values Section */
+        .values-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .value-item {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .value-icon i {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .value-item h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+            margin-bottom: 15px;
+        }
+
+        .value-item p {
+            color: #666;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+            padding: 80px 0;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            margin-bottom: 30px;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .member-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .member-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .team-member:hover .member-img img {
+            transform: scale(1.05);
+        }
+
+        .member-info {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .member-info h4 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+            margin-bottom: 5px;
+        }
+
+        .member-info .position {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .member-info p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--gradient);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(100px, -100px);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer (from your template) */
+        .footer {
+            background: var(--dark-bg);
+            color: #e2e8f0;
+            padding: 60px 0 0;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .footer-content, .footer-links, .footer-contact {
+            margin-bottom: 30px;
+        }
+
+        .footer .logo {
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 0 50px;
+            }
+
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .mission-card, .vision-card {
+                padding: 30px;
+            }
+
+            .value-item {
+                padding: 25px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .values-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-10">
+                    <h1>About Spotly</h1>
+                    <p>Revolutionizing community safety through innovative technology and seamless citizen-police collaboration.
+                    Our mission is to make neighborhoods safer and law enforcement more accessible for everyone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="section">
+        <div class="container">
+            <div class="row g-5 mb-5">
+                <div class="col-lg-6">
+                    <div class="mission-card">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Our Mission</h3>
+                        <p>To bridge the gap between citizens and law enforcement by providing a secure,
+                        user-friendly platform for reporting incidents, tracking cases, and enhancing
+                        community safety through technology-driven solutions.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="vision-card">
+                        <div class="card-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Our Vision</h3>
+                        <p>To create safer communities worldwide by becoming the leading platform for
+                        citizen-police collaboration, setting new standards in public safety technology,
+                        and making law enforcement more transparent and accessible.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Our Values -->
+            <div class="section-title">
+                <h2>Our Core Values</h2>
+                <p>These principles guide everything we do at Spotly</p>
+            </div>
+
+            <div class="values-container">
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Safety First</h4>
+                    <p>Community safety is our top priority. Every feature and decision is made with
+                    the security of our users in mind.</p>
+                </div>
+
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>Trust & Transparency</h4>
+                    <p>We believe in building trust through transparent operations and clear
+                    communication between citizens and authorities.</p>
+                </div>
+
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h4>Innovation</h4>
+                    <p>Continuously improving our platform with cutting-edge technology to
+                    provide the best possible service to our community.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">25+</div>
+                        <div class="stat-label">Police Departments</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Response Rate</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Cases Resolved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Leadership Team</h2>
+                <p>The dedicated professionals behind Spotly's success</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="CEO">
+                        </div>
+                        <div class="member-info">
+                            <h4>John Carter</h4>
+                            <div class="position">CEO & Founder</div>
+                            <p>Former law enforcement officer with 15+ years of experience in public safety.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="CTO">
+                        </div>
+                        <div class="member-info">
+                            <h4>Sarah Johnson</h4>
+                            <div class="position">Chief Technology Officer</div>
+                            <p>Tech visionary with expertise in security systems and community platforms.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Head of Security">
+                        </div>
+                        <div class="member-info">
+                            <h4>Michael Rodriguez</h4>
+                            <div class="position">Head of Security</div>
+                            <p>Cybersecurity expert ensuring our platform remains secure and reliable.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Include Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

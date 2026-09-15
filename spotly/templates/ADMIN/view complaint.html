@@ -1,0 +1,918 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#  <meta charset="UTF-8">#}
+{#  <title>Sent Complaints</title>#}
+{#  <!-- Bootstrap 5 CSS -->#}
+{#  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">#}
+{#  <!-- DataTables CSS -->#}
+{#  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">#}
+{#</head>#}
+{#<body>#}
+{##}
+{#{% include 'admin_header.html' %}#}
+{#<br><br><br><br><br><br>#}
+{#<br>#}
+{#  <div class="container mt-5">#}
+{#    <h3 class="mb-4">Complaints</h3>#}
+{##}
+{#    <!-- Date Filter Inputs -->#}
+{#    <div class="row mb-3">#}
+{#      <div class="col-md-4">#}
+{#        <label for="fromDate" class="form-label">From Date</label>#}
+{#        <input type="date" id="fromDate" class="form-control">#}
+{#      </div>#}
+{#      <div class="col-md-4">#}
+{#        <label for="toDate" class="form-label">To Date</label>#}
+{#        <input type="date" id="toDate" class="form-control">#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#    <!-- Complaints Table -->#}
+{#    <div class="table-responsive">#}
+{#      <table class="table table-bordered table-hover" id="complaintTable">#}
+{#        <thead class="table-light">#}
+{#          <tr>#}
+{#            <th>Sl. No.</th>#}
+{#            <th>complaint</th>#}
+{#            <th>date</th>#}
+{#            <th>Reply</th>#}
+{#            <th>Status</th>#}
+{#          </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#          {% for i in data %}#}
+{#          <tr>#}
+{#            <td>{{ forloop.counter }}</td>#}
+{#            <td>{{ i.complaint }}</td>#}
+{#            <td>{{ i.date }}</td>#}
+{#              {% if i.reply == 'pending' %}#}
+{#            <td>#}
+{#                <a href="/myapp/admin_reply_get/{{ i.id }}">Reply</a>#}
+{#            </td>#}
+{#          {% elif i.status == 'replied' %}#}
+{#          <td>{{ i.reply }}</td>#}
+{#          {% endif %}#}
+{##}
+{#          <td>{{ i.status }}</td>#}
+{#          </tr>#}
+{#                {% endfor %}#}
+{##}
+{#          <!-- Add more rows as needed -->#}
+{#        </tbody>#}
+{#      </table>#}
+{#    </div>#}
+{#  </div>#}
+{##}
+{#  <!-- Scripts -->#}
+{#  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>#}
+{#  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>#}
+{#  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>#}
+{##}
+{#  <script>#}
+{#    // Extend DataTables with custom date filtering#}
+{#    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {#}
+{#      const min = document.getElementById('fromDate').value;#}
+{#      const max = document.getElementById('toDate').value;#}
+{#      const dateStr = data[1]; // Date is column index 1#}
+{#      const date = new Date(dateStr);#}
+{##}
+{#      const minDate = min ? new Date(min) : null;#}
+{#      const maxDate = max ? new Date(max) : null;#}
+{##}
+{#      if ((!minDate || date >= minDate) && (!maxDate || date <= maxDate)) {#}
+{#        return true;#}
+{#      }#}
+{#      return false;#}
+{#    });#}
+{##}
+{#    // Initialize DataTable and bind filter events#}
+{#    $(document).ready(function () {#}
+{#      const table = $('#complaintTable').DataTable({#}
+{#        pageLength: 5#}
+{#      });#}
+{##}
+{#      $('#fromDate, #toDate').on('change', function () {#}
+{#        table.draw();#}
+{#      });#}
+{#    });#}
+{#  </script>#}
+{#<br><br><br><br><br><br>#}
+{#<br><br><br><br><br><br><br>#}
+{##}
+{#{% include 'footer.html' %}#}
+{##}
+{#</body>#}
+{#</html>#}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Complaints Management</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- DataTables CSS -->
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #7209b7;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --danger: #e63946;
+      --warning: #ff9e00;
+      --info: #00b4d8;
+      --border-radius: 12px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fb 0%, #e9ecef 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+
+    .container {
+      padding-top: 30px;
+      padding-bottom: 50px;
+    }
+
+    /* Header Section */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: var(--border-radius);
+      padding: 30px;
+      color: white;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transform: translate(100px, -100px);
+    }
+
+    .page-header h1 {
+      font-weight: 700;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      opacity: 0.9;
+      margin-bottom: 0;
+    }
+
+    .header-icon {
+      font-size: 40px;
+      margin-right: 15px;
+    }
+
+    /* Filter Section */
+    .filter-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    .filter-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .filter-header h4 {
+      margin: 0;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .filter-header i {
+      color: var(--primary);
+      margin-right: 10px;
+      font-size: 20px;
+    }
+
+    .form-control, .form-select {
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 10px 15px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    /* Show List Switch Styles */
+    .show-list-switch {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 0;
+      border-top: 1px solid #e9ecef;
+      margin-top: 20px;
+    }
+
+    .switch-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .switch-label {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .switch-description {
+      color: #6c757d;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* Custom Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(30px);
+    }
+
+    /* When switch is on - active state */
+    .switch-on .toggle-slider:before {
+      background-color: white;
+    }
+
+    /* Filter Actions */
+    .filter-actions {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .btn-filter {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-filter:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .btn-reset {
+      background: #e9ecef;
+      color: var(--dark);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-reset:hover {
+      background: #dee2e6;
+      transform: translateY(-2px);
+    }
+
+    /* Table Section */
+    .table-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 0;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .table-card.hidden {
+      opacity: 0;
+      height: 0;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 25px 25px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+      margin: 0;
+    }
+
+    .table-title i {
+      color: var(--primary);
+      margin-right: 10px;
+    }
+
+    /* Custom Table Styling */
+    #complaintTable {
+      margin: 0 !important;
+    }
+
+    #complaintTable thead th {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 15px 20px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #complaintTable tbody td {
+      padding: 15px 20px;
+      border-bottom: 1px solid #e9ecef;
+      vertical-align: middle;
+    }
+
+    #complaintTable tbody tr {
+      transition: all 0.3s ease;
+    }
+
+    #complaintTable tbody tr:hover {
+      background-color: #f8f9ff !important;
+      transform: translateX(5px);
+    }
+
+    /* Status Badges */
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-replied {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+
+    /* Action Buttons */
+    .btn-reply {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-reply:hover {
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .btn-view {
+      background: #e9ecef;
+      color: var(--dark);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-view:hover {
+      background: #dee2e6;
+      color: var(--dark);
+      transform: translateY(-2px);
+    }
+
+    /* Complaint Text */
+    .complaint-text {
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .complaint-text:hover {
+      color: var(--primary);
+    }
+
+    .complaint-full {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      z-index: 1050;
+      max-width: 500px;
+      width: 90%;
+      border: 2px solid var(--primary);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .empty-state i {
+      font-size: 60px;
+      color: #dee2e6;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h4 {
+      color: #6c757d;
+      margin-bottom: 10px;
+    }
+
+    .empty-state p {
+      color: #adb5bd;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .filter-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .page-header {
+        padding: 20px;
+      }
+
+      .page-header h1 {
+        font-size: 24px;
+      }
+
+      .show-list-switch {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  {% include 'admin_header.html' %}
+  <br><br><br><br><br> <br>
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="d-flex align-items-center">
+        <i class="fas fa-exclamation-circle header-icon"></i>
+        <div>
+          <h1>Complaints Management</h1>
+          <p>View and manage user complaints</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-card">
+      <div class="filter-header">
+        <i class="fas fa-filter"></i>
+        <h4>Filter Complaints</h4>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">From Date</label>
+          <input type="date" id="fromDate" class="form-control" placeholder="Select start date">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">To Date</label>
+          <input type="date" id="toDate" class="form-control" placeholder="Select end date">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Status</label>
+          <select id="statusFilter" class="form-select">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="replied">Replied</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Search Complaint</label>
+          <input type="text" id="complaintSearch" class="form-control" placeholder="Search in complaints...">
+        </div>
+
+        <div class="col-md-8 filter-actions">
+          <button class="btn-filter" id="applyFilter">
+            <i class="fas fa-search me-2"></i>Apply Filters
+          </button>
+          <button class="btn-reset" id="resetFilter">
+            <i class="fas fa-redo me-2"></i>Reset All
+          </button>
+        </div>
+      </div>
+
+      <!-- Show List Switch -->
+      <div class="show-list-switch">
+        <div class="switch-container">
+          <label class="toggle-switch">
+            <input type="checkbox" id="showListSwitch" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <div>
+            <p class="switch-label">Show Complaints List</p>
+            <p class="switch-description">Toggle to show/hide the complaints table</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Complaints Table -->
+    <div class="table-card" id="complaintsTable">
+      <div class="table-header">
+        <h3 class="table-title">
+          <i class="fas fa-list"></i>
+          Complaints List
+        </h3>
+        <div class="table-info" id="tableInfo">
+          Showing {{ data|length }} complaints
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table" id="complaintTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Complaint</th>
+              <th>Date</th>
+              <th>Reply</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if data %}
+              {% for i in data %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                  <div class="complaint-text" title="{{ i.complaint }}" data-complaint="{{ i.complaint }}">
+                    {{ i.complaint|truncatechars:50 }}
+                  </div>
+                </td>
+                <td>{{ i.date }}</td>
+                <td>
+                  {% if i.reply == 'pending' %}
+                    <a href="/myapp/admin_reply_get/{{ i.id }}" class="btn-reply">
+                      <i class="fas fa-reply"></i> Reply
+                    </a>
+                  {% elif i.status == 'replied' %}
+                    <button class="btn-view view-reply" data-reply="{{ i.reply }}">
+                      <i class="fas fa-eye"></i> View
+                    </button>
+                  {% endif %}
+                </td>
+                <td>
+                  <span class="status-badge status-{{ i.status }}">
+                    {% if i.status == 'pending' %}
+                      <i class="fas fa-clock"></i>
+                    {% elif i.status == 'replied' %}
+                      <i class="fas fa-check-circle"></i>
+                    {% endif %}
+                    {{ i.status }}
+                  </span>
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5">
+                <div class="empty-state">
+                  <i class="fas fa-inbox"></i>
+                  <h4>No Complaints Found</h4>
+                  <p>There are no complaints to display at the moment.</p>
+                </div>
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Complaint Full Text Modal -->
+  <div class="complaint-full" id="complaintModal">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0"><i class="fas fa-exclamation-circle me-2"></i>Full Complaint</h5>
+      <button type="button" class="btn-close" id="closeModal"></button>
+    </div>
+    <p id="complaintFullText"></p>
+  </div>
+
+  <!-- Reply Modal -->
+  <div class="complaint-full" id="replyModal" style="display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0"><i class="fas fa-reply me-2"></i>Reply Details</h5>
+      <button type="button" class="btn-close" id="closeReplyModal"></button>
+    </div>
+    <p id="replyFullText"></p>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      // Initialize DataTable
+      const table = $('#complaintTable').DataTable({
+        pageLength: 10,
+        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        language: {
+          search: "_INPUT_",
+          searchPlaceholder: "Search complaints...",
+          lengthMenu: "Show _MENU_ entries",
+          info: "Showing _START_ to _END_ of _TOTAL_ complaints",
+          infoEmpty: "No complaints available",
+          paginate: {
+            previous: '<i class="fas fa-chevron-left"></i>',
+            next: '<i class="fas fa-chevron-right"></i>'
+          }
+        },
+        columnDefs: [
+          { orderable: false, targets: [3] }
+        ],
+        order: [[2, 'desc']] // Sort by date descending
+      });
+
+      // Show/Hide List Switch Functionality
+      const showListSwitch = document.getElementById('showListSwitch');
+      const complaintsTable = document.getElementById('complaintsTable');
+
+      showListSwitch.addEventListener('change', function() {
+        if (this.checked) {
+          // Show table with animation
+          complaintsTable.classList.remove('hidden');
+          setTimeout(() => {
+            complaintsTable.style.opacity = '1';
+            complaintsTable.style.height = 'auto';
+          }, 10);
+        } else {
+          // Hide table with animation
+          complaintsTable.style.opacity = '0';
+          complaintsTable.style.height = complaintsTable.offsetHeight + 'px';
+
+          setTimeout(() => {
+            complaintsTable.style.height = '0';
+            complaintsTable.classList.add('hidden');
+          }, 300);
+        }
+      });
+
+      // Update table info
+      function updateTableInfo() {
+        const total = table.page.info().recordsDisplay;
+        $('#tableInfo').text(`Showing ${total} complaints`);
+      }
+
+      // View full complaint
+      $('.complaint-text').on('click', function() {
+        const complaint = $(this).data('complaint');
+        $('#complaintFullText').text(complaint);
+        $('#complaintModal').show();
+      });
+
+      // View reply
+      $('.view-reply').on('click', function() {
+        const reply = $(this).data('reply');
+        $('#replyFullText').text(reply);
+        $('#replyModal').show();
+      });
+
+      // Close modals
+      $('#closeModal').on('click', function() {
+        $('#complaintModal').hide();
+      });
+
+      $('#closeReplyModal').on('click', function() {
+        $('#replyModal').hide();
+      });
+
+      // Close modals on outside click
+      $(document).on('click', function(e) {
+        if ($(e.target).is('#complaintModal')) {
+          $('#complaintModal').hide();
+        }
+        if ($(e.target).is('#replyModal')) {
+          $('#replyModal').hide();
+        }
+      });
+
+      // Apply filters
+      $('#applyFilter').on('click', function() {
+        const fromDate = $('#fromDate').val();
+        const toDate = $('#toDate').val();
+        const status = $('#statusFilter').val();
+        const search = $('#complaintSearch').val();
+
+        // Clear previous date filters
+        $.fn.dataTable.ext.search.pop();
+
+        // Date filtering
+        if (fromDate || toDate) {
+          $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+            const rowDate = new Date(data[2]);
+            const minDate = fromDate ? new Date(fromDate) : null;
+            const maxDate = toDate ? new Date(toDate + 'T23:59:59') : null;
+
+            if (minDate && maxDate) {
+              return rowDate >= minDate && rowDate <= maxDate;
+            } else if (minDate) {
+              return rowDate >= minDate;
+            } else if (maxDate) {
+              return rowDate <= maxDate;
+            }
+            return true;
+          });
+        }
+
+        // Status filtering
+        if (status) {
+          table.column(4).search(status, true, false);
+        } else {
+          table.column(4).search('');
+        }
+
+        // Text search
+        if (search) {
+          table.search(search);
+        }
+
+        table.draw();
+        updateTableInfo();
+      });
+
+      // Reset filters
+      $('#resetFilter').on('click', function() {
+        $('#fromDate').val('');
+        $('#toDate').val('');
+        $('#statusFilter').val('');
+        $('#complaintSearch').val('');
+
+        // Remove date filter
+        $.fn.dataTable.ext.search.pop();
+
+        table
+          .search('')
+          .columns().search('')
+          .draw();
+
+        updateTableInfo();
+      });
+
+      // Initialize table info
+      updateTableInfo();
+
+      // Add row hover effect
+      $('#complaintTable tbody').on('mouseenter', 'tr', function() {
+        $(this).css('transform', 'translateX(5px)');
+      }).on('mouseleave', 'tr', function() {
+        $(this).css('transform', 'translateX(0)');
+      });
+
+      // Initialize dates
+      const today = new Date().toISOString().split('T')[0];
+      $('#toDate').val(today);
+
+      // Set from date to 30 days ago
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      $('#fromDate').val(thirtyDaysAgo.toISOString().split('T')[0]);
+
+      // Apply initial filter
+      setTimeout(() => {
+        $('#applyFilter').click();
+      }, 100);
+    });
+  </script>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br><br>
+
+  {% include 'footer.html' %}
+</body>
+</html>

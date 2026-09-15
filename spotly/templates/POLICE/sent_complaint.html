@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Submit Complaint - Spotly Police Portal</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #7209b7;
+      --success: #4cc9f0;
+      --danger: #e63946;
+      --warning: #ff9e00;
+      --info: #00b4d8;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --border-radius: 16px;
+      --shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      --gradient: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fb 0%, #e9ecef 100%);
+      min-height: 100vh;
+      padding-top: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Complaint Form Container */
+    .complaint-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    /* Complaint Card */
+    .complaint-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 40px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .complaint-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: var(--gradient);
+    }
+
+    /* Card Header */
+    .card-header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .header-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 10px 30px rgba(67, 97, 238, 0.3);
+    }
+
+    .header-icon i {
+      font-size: 36px;
+      color: white;
+    }
+
+    .card-header h2 {
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .card-header p {
+      color: var(--dark);
+      font-size: 15px;
+      margin-bottom: 0;
+      opacity: 0.8;
+    }
+
+    /* Form Styling */
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 15px;
+    }
+
+    .form-label i {
+      color: var(--primary);
+      width: 20px;
+      text-align: center;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: var(--transition);
+      background-color: #fafbff;
+      font-family: inherit;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+      background-color: white;
+      outline: none;
+    }
+
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .char-counter {
+      text-align: right;
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 5px;
+    }
+
+    .char-counter.warning {
+      color: var(--warning);
+    }
+
+    .char-counter.danger {
+      color: var(--danger);
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      background: var(--gradient);
+      border: none;
+      color: white;
+      transition: var(--transition);
+      margin-top: 20px;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-submit .loader {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Form Notes */
+    .form-notes {
+      margin-top: 25px;
+      padding: 15px;
+      background: #f8f9ff;
+      border-radius: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .form-notes h5 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-notes ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+
+    .form-notes li {
+      font-size: 13px;
+      color: #6c757d;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .form-notes li i {
+      color: var(--primary);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    /* Messages Container */
+    .messages-container {
+      margin-bottom: 25px;
+    }
+
+    .alert-message {
+      padding: 15px 20px;
+      border-radius: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: slideDown 0.3s ease;
+      margin-bottom: 15px;
+      border: 1px solid transparent;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border-color: #c3e6cb;
+    }
+
+    .alert-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-color: #f5c6cb;
+    }
+
+    .alert-info {
+      background-color: #d1ecf1;
+      color: #0c5460;
+      border-color: #bee5eb;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        padding-top: 70px;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .complaint-container {
+        margin: 10px auto;
+      }
+
+      .complaint-card {
+        padding: 30px 25px;
+      }
+
+      .card-header h2 {
+        font-size: 24px;
+      }
+
+      .header-icon {
+        width: 70px;
+        height: 70px;
+      }
+
+      .header-icon i {
+        font-size: 30px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .complaint-card {
+        padding: 25px 20px;
+      }
+
+      .card-header h2 {
+        font-size: 22px;
+      }
+
+      .form-control {
+        padding: 12px 14px;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  {% include 'police_header.html' %}
+  <br><br>
+
+  <div class="complaint-container">
+    <div class="complaint-card fade-in">
+      <!-- Card Header -->
+      <div class="card-header">
+        <div class="header-icon">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <h2>Submit New Complaint</h2>
+        <p>Report issues or concerns to higher authorities</p>
+      </div>
+
+      <!-- Django Messages -->
+      {% if messages %}
+      <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert-message alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+          {% if 'success' in message.tags %}
+            <i class="fas fa-check-circle"></i>
+          {% elif 'error' in message.tags %}
+            <i class="fas fa-exclamation-circle"></i>
+          {% else %}
+            <i class="fas fa-info-circle"></i>
+          {% endif %}
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Complaint Form -->
+      <form action="/myapp/police_sent_complaint_post/" method="post">
+        {% csrf_token %}
+
+        <!-- Complaint Field -->
+        <div class="form-group">
+          <label for="complaint" class="form-label">
+            <i class="fas fa-comment-dots"></i>
+            Complaint Details
+          </label>
+          <textarea class="form-control" id="complaint" name="complaint"
+                    placeholder="Describe your complaint in detail..."
+                    required rows="6"></textarea>
+          <div id="charCounter" class="char-counter">0/500 characters</div>
+        </div>
+
+        <!-- Priority Selection (Optional Enhancement) -->
+        <div class="form-group">
+          <label for="priority" class="form-label">
+            <i class="fas fa-flag"></i>
+            Priority Level
+          </label>
+          <select class="form-control" id="priority" name="priority">
+            <option value="normal">Normal Priority</option>
+            <option value="high">High Priority</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+
+        <!-- Form Notes -->
+        <div class="form-notes">
+          <h5><i class="fas fa-lightbulb"></i> Tips for effective complaints:</h5>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> Be clear and specific about the issue</li>
+            <li><i class="fas fa-check-circle"></i> Include relevant dates, times, and locations</li>
+            <li><i class="fas fa-check-circle"></i> Provide any supporting evidence if available</li>
+            <li><i class="fas fa-check-circle"></i> Keep the description concise but complete</li>
+          </ul>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <i class="fas fa-paper-plane"></i>
+          Submit Complaint
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const complaintInput = document.getElementById('complaint');
+      const charCounter = document.getElementById('charCounter');
+      const submitBtn = document.getElementById('submitBtn');
+      const maxChars = 500;
+
+      // Character counter for complaint textarea
+      complaintInput.addEventListener('input', function() {
+        const currentLength = this.value.length;
+        charCounter.textContent = `${currentLength}/${maxChars} characters`;
+
+        // Update color based on character count
+        charCounter.classList.remove('warning', 'danger');
+        if (currentLength > maxChars * 0.8 && currentLength <= maxChars) {
+          charCounter.classList.add('warning');
+        } else if (currentLength > maxChars) {
+          charCounter.classList.add('danger');
+          this.value = this.value.substring(0, maxChars);
+          charCounter.textContent = `${maxChars}/${maxChars} characters (maximum reached)`;
+        }
+
+        // Enable/disable submit button based on content
+        validateForm();
+      });
+
+      // Form validation
+      function validateForm() {
+        const complaint = complaintInput.value.trim();
+        const isValid = complaint.length >= 10 && complaint.length <= maxChars;
+
+        submitBtn.disabled = !isValid;
+        return isValid;
+      }
+
+      // Form submission
+      const form = document.querySelector('form');
+      form.addEventListener('submit', function(e) {
+        if (!validateForm()) {
+          e.preventDefault();
+          alert('Please enter a valid complaint (10-500 characters)');
+        } else {
+          submitBtn.innerHTML = '<span class="loader"></span> Submitting...';
+          submitBtn.disabled = true;
+
+          // Optional: Add a small delay to show the loading state
+          setTimeout(() => {
+            // Form will submit normally
+          }, 100);
+        }
+      });
+
+      // Auto-hide messages after 5 seconds
+      setTimeout(() => {
+        document.querySelectorAll('.alert-message').forEach(msg => {
+          msg.style.opacity = '0';
+          msg.style.transition = 'opacity 0.5s ease';
+          setTimeout(() => msg.remove(), 500);
+        });
+      }, 5000);
+
+      // Focus on complaint field
+      complaintInput.focus();
+
+      // Initialize form validation
+      validateForm();
+
+      // Priority indicator
+      const prioritySelect = document.getElementById('priority');
+      prioritySelect.addEventListener('change', function() {
+        const colors = {
+          'normal': '#4361ee',
+          'high': '#ff9e00',
+          'urgent': '#e63946'
+        };
+        this.style.borderLeftColor = colors[this.value];
+        this.style.borderLeftWidth = '4px';
+      });
+
+      // Trigger change event to set initial color
+      prioritySelect.dispatchEvent(new Event('change'));
+    });
+  </script>
+</body>
+</html>

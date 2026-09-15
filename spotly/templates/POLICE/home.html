@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Police Portal - Spotly</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #7209b7;
+      --success: #4cc9f0;
+      --danger: #e63946;
+      --warning: #ff9e00;
+      --info: #00b4d8;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --border-radius: 16px;
+      --shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      --gradient: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fb 0%, #e9ecef 100%);
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    /* Police Header */
+    .police-header {
+      background: white;
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+      height: 80px;
+      border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      padding: 0 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand-logo {
+      width: 50px;
+      height: 50px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.25);
+    }
+
+    .brand-logo i {
+      font-size: 24px;
+      color: white;
+    }
+
+    .brand-text h2 {
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      color: #6c757d;
+      margin: 0;
+    }
+
+    .officer-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .officer-badge {
+      background: var(--gradient);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.25);
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: var(--gradient);
+      border-radius: var(--border-radius);
+      padding: 60px 40px;
+      color: white;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      right: 100px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero-content h1 {
+      font-weight: 700;
+      font-size: 36px;
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 0;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .welcome-text {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .welcome-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    /* Dashboard Container */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px 40px;
+    }
+
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dashboard-title i {
+      color: var(--primary);
+    }
+
+    /* FIXED: Cards Grid Layout */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    /* FIXED: Service Card Layout */
+    .service-card {
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    /* FIXED: Card Header */
+    .card-header {
+      padding: 25px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .card-icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 28px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .card-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    /* FIXED: Card Body - Removed fixed height issues */
+    .card-body {
+      padding: 25px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-description {
+      color: #6c757d;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .card-features {
+      margin-bottom: 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #495057;
+    }
+
+    .feature-item i {
+      color: var(--primary);
+      font-size: 12px;
+      flex-shrink: 0;
+      width: 16px;
+      text-align: center;
+    }
+
+    .feature-item span {
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    /* FIXED: Card Action - Proper button placement */
+    .card-action {
+      margin-top: auto;
+    }
+
+    .btn-service {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 10px;
+      border: none;
+      color: white;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-service::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-service:hover::before {
+      left: 100%;
+    }
+
+    .btn-service:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-service i {
+      font-size: 16px;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      margin-bottom: 40px;
+    }
+
+    .stats-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stats-title i {
+      color: var(--primary);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .stat-item {
+      background: #f8f9ff;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      transition: var(--transition);
+    }
+
+    .stat-item:hover {
+      background: white;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--gradient);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 20px;
+      color: white;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .action-btn {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      text-decoration: none;
+      color: inherit;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100%;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+      color: inherit;
+    }
+
+    .action-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-size: 24px;
+      color: white;
+    }
+
+    .action-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .action-desc {
+      font-size: 13px;
+      color: #6c757d;
+      margin-bottom: 0;
+      line-height: 1.4;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+    }
+
+    @media (max-width: 992px) {
+      .hero-content h1 {
+        font-size: 32px;
+      }
+
+      .dashboard-container {
+        padding: 0 20px 30px;
+      }
+
+      .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        padding: 0 20px;
+      }
+
+      .hero-banner {
+        padding: 40px 25px;
+        margin: 0 20px 30px;
+      }
+
+      .hero-content h1 {
+        font-size: 28px;
+        text-align: center;
+      }
+
+      .hero-content p {
+        font-size: 16px;
+        text-align: center;
+      }
+
+      .welcome-text {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+
+      .officer-info {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .brand-text h2 {
+        font-size: 20px;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      body {
+        padding-top: 70px;
+      }
+
+      .police-header {
+        height: 70px;
+      }
+
+      .header-container {
+        height: 70px;
+        padding: 0 15px;
+      }
+
+      .brand-logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      .brand-logo i {
+        font-size: 20px;
+      }
+
+      .hero-banner {
+        padding: 30px 20px;
+        margin: 0 15px 25px;
+      }
+
+      .hero-content h1 {
+        font-size: 24px;
+      }
+
+      .card-header {
+        padding: 20px;
+      }
+
+      .card-body {
+        padding: 20px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {% include 'police_header.html' %}
+  <br><br>
+
+  <!-- Hero Banner -->
+  <div class="dashboard-container">
+    <div class="hero-banner">
+      <div class="hero-content">
+        <div class="welcome-text">
+          <div class="welcome-icon">
+            <i class="fas fa-handshake"></i>
+          </div>
+          <div>
+            <h1>Welcome Back, Officer</h1>
+            <p>Manage complaints, track cases, and maintain public safety efficiently through the Spotly Police Portal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Services -->
+    <h2 class="dashboard-title">
+      <i class="fas fa-tasks"></i>
+      Available Services
+    </h2>
+
+    <div class="cards-grid">
+      <!-- View Complaints Card -->
+      <div class="service-card">
+        <div class="card-header" style="background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);">
+          <div class="card-icon">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h3 class="card-title">View Complaints</h3>
+          <p class="card-subtitle">Monitor & Manage Public Reports</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">
+            Access and manage all submitted complaints from citizens. Review details, update status, and take necessary actions to ensure public safety and satisfaction.
+          </p>
+          <div class="card-features">
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>View all pending complaints</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Update complaint status</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Add investigation notes</span>
+            </div>
+          </div>
+          <div class="card-action">
+            <a href="/myapp/police_view_complaints/" class="btn-service" style="background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);">
+              <i class="fas fa-eye"></i>
+              View Complaints
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sent Complaints Card -->
+      <div class="service-card">
+        <div class="card-header" style="background: linear-gradient(135deg, #ff9e00 0%, #ff6b00 100%);">
+          <div class="card-icon">
+            <i class="fas fa-paper-plane"></i>
+          </div>
+          <h3 class="card-title">Sent Complaints</h3>
+          <p class="card-subtitle">Track Your Submitted Reports</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">
+            Monitor complaints that you have submitted to higher authorities or other departments. Track their progress and stay updated on resolution status.
+          </p>
+          <div class="card-features">
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>View sent complaint history</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Track resolution progress</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Receive status updates</span>
+            </div>
+          </div>
+          <div class="card-action">
+            <a href="/myapp/police_sent_complaint_get/" class="btn-service" style="background: linear-gradient(135deg, #ff9e00 0%, #ff6b00 100%);">
+              <i class="fas fa-history"></i>
+              View Sent Complaints
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency Alerts Card -->
+      <div class="service-card">
+        <div class="card-header" style="background: linear-gradient(135deg, #e63946 0%, #d00000 100%);">
+          <div class="card-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h3 class="card-title">Emergency Alerts</h3>
+          <p class="card-subtitle">Critical Notifications & Updates</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">
+            Access urgent alerts and emergency notifications. Stay informed about critical situations, public announcements, and important updates requiring immediate attention.
+          </p>
+          <div class="card-features">
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Real-time emergency alerts</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Priority notifications</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Quick response tools</span>
+            </div>
+          </div>
+          <div class="card-action">
+            <a href="/myapp/police_view_alerts/" class="btn-service" style="background: linear-gradient(135deg, #e63946 0%, #d00000 100%);">
+              <i class="fas fa-bell"></i>
+              View Alerts
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="stats-section">
+      <h3 class="stats-title">
+        <i class="fas fa-chart-line"></i>
+        Quick Statistics
+      </h3>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-inbox"></i>
+          </div>
+          <div class="stat-value">24</div>
+          <div class="stat-label">New Complaints</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stat-value">156</div>
+          <div class="stat-label">Resolved Cases</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-value">12</div>
+          <div class="stat-label">Pending Actions</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="stat-value">3</div>
+          <div class="stat-label">Active Alerts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <h2 class="dashboard-title">
+      <i class="fas fa-bolt"></i>
+      Quick Actions
+    </h2>
+    <div class="quick-actions">
+      <a href="/myapp/police_view_complaints/" class="action-btn">
+        <div class="action-icon">
+          <i class="fas fa-comments"></i>
+        </div>
+        <h4 class="action-title">Review Complaints</h4>
+        <p class="action-desc">Check new public complaints</p>
+      </a>
+
+      <a href="/myapp/police_sent_complaint_get/" class="action-btn">
+        <div class="action-icon">
+          <i class="fas fa-history"></i>
+        </div>
+        <h4 class="action-title">Sent History</h4>
+        <p class="action-desc">Track submitted complaints</p>
+      </a>
+
+      <a href="/myapp/police_view_alerts/" class="action-btn">
+        <div class="action-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h4 class="action-title">Emergency Alerts</h4>
+        <p class="action-desc">View urgent notifications</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+
+  <script>
+    // Update statistics with random data (for demo purposes)
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update statistics periodically
+      function updateStats() {
+        const stats = document.querySelectorAll('.stat-value');
+        if (stats.length >= 4) {
+          // Random fluctuations for demo
+          stats[0].textContent = Math.floor(Math.random() * 10) + 20; // New Complaints: 20-30
+          stats[1].textContent = Math.floor(Math.random() * 10) + 150; // Resolved Cases: 150-160
+          stats[2].textContent = Math.floor(Math.random() * 5) + 10; // Pending Actions: 10-15
+          stats[3].textContent = Math.floor(Math.random() * 3) + 1; // Active Alerts: 1-4
+        }
+      }
+
+      // Update stats every 30 seconds
+      setInterval(updateStats, 30000);
+
+      // Add hover effect to cards
+      document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-10px)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+
+      // Add welcome message based on time of day
+      const hour = new Date().getHours();
+      const welcomeElement = document.querySelector('.hero-content h1');
+      let greeting = 'Welcome Back, Officer';
+
+      if (hour < 12) {
+        greeting = 'Good Morning, Officer';
+      } else if (hour < 18) {
+        greeting = 'Good Afternoon, Officer';
+      } else {
+        greeting = 'Good Evening, Officer';
+      }
+
+      if (welcomeElement) {
+        welcomeElement.textContent = greeting;
+      }
+    });
+  </script>
+
+  {% include 'footer.html' %}
+</body>
+</html>

@@ -1,0 +1,1042 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Alerts</title>#}
+{#    <style>#}
+{#        body {#}
+{#            font-family: Arial, sans-serif;#}
+{#            background: #f5f6fa;#}
+{#            padding: 20px;#}
+{#        }#}
+{#        h2 {#}
+{#            text-align: center;#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{#        table {#}
+{#            width: 100%;#}
+{#            border-collapse: collapse;#}
+{#            background: white;#}
+{#        }#}
+{#        th, td {#}
+{#            padding: 10px;#}
+{#            border: 1px solid #ddd;#}
+{#            text-align: center;#}
+{#            font-size: 14px;#}
+{#        }#}
+{#        th {#}
+{#            background: #2c3e50;#}
+{#            color: white;#}
+{#        }#}
+{#        tr:nth-child(even) {#}
+{#            background: #f2f2f2;#}
+{#        }#}
+{#        img {#}
+{#            width: 80px;#}
+{#            height: auto;#}
+{#            border-radius: 4px;#}
+{#        }#}
+{#        .status {#}
+{#            font-weight: bold;#}
+{#            text-transform: capitalize;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#<h2>🚨 Vehicle Alerts</h2>#}
+{##}
+{#<table>#}
+{#    <tr>#}
+{#        <th>ID</th>#}
+{#        <th>Status</th>#}
+{#        <th>Location</th>#}
+{#        <th>Detected Time</th>#}
+{#        <th>Image</th>#}
+{#    </tr>#}
+{##}
+{#    {% for alert in alerts %}#}
+{#    <tr>#}
+{#        <td>{{ alert.id }}</td>#}
+{#        <td class="status">{{ alert.status }}</td>#}
+{#        <td>#}
+{#            {% if alert.latitude and alert.longitude %}#}
+{#                {{ alert.latitude }}, {{ alert.longitude }}#}
+{#            {% else %}#}
+{#                —#}
+{#            {% endif %}#}
+{#        </td>#}
+{#        <td>{{ alert.detected_at|date:"d M Y, H:i" }}</td>#}
+{#        <td>#}
+{#            {% if alert.detected_image %}#}
+{#                <img src="{{ alert.detected_image }}" alt="Detected Image">#}
+{#            {% else %}#}
+{#                No image#}
+{#            {% endif %}#}
+{#        </td>#}
+{#    </tr>#}
+{#    {% empty %}#}
+{#    <tr>#}
+{#        <td colspan="5">No alerts available</td>#}
+{#    </tr>#}
+{#    {% endfor %}#}
+{#</table>#}
+{##}
+{#</body>#}
+{#</html>#}
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emergency Alerts - Spotly Police Portal</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #7209b7;
+      --success: #4cc9f0;
+      --danger: #e63946;
+      --warning: #ff9e00;
+      --info: #00b4d8;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --border-radius: 16px;
+      --shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      --gradient: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fb 0%, #e9ecef 100%);
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    /* Police Header */
+    .police-header {
+      background: white;
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+      height: 80px;
+      border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      padding: 0 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand-logo {
+      width: 50px;
+      height: 50px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.25);
+    }
+
+    .brand-logo i {
+      font-size: 24px;
+      color: white;
+    }
+
+    .brand-text h2 {
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      color: #6c757d;
+      margin: 0;
+    }
+
+    .officer-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .officer-badge {
+      background: var(--gradient);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.25);
+    }
+
+    /* Dashboard Container */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px 40px;
+    }
+
+    /* Alerts Header */
+    .alerts-header {
+      background: linear-gradient(135deg, #e63946 0%, #d00000 100%);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      color: white;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .alerts-header::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .alerts-header::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      right: 100px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+    }
+
+    .alerts-header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .alerts-title-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .alerts-icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .alerts-text h1 {
+      font-weight: 700;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .alerts-text p {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 0;
+      max-width: 500px;
+    }
+
+    .alerts-stats {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px 30px;
+      border-radius: var(--border-radius);
+      backdrop-filter: blur(10px);
+    }
+
+    .alerts-count {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .alerts-label {
+      font-size: 14px;
+      opacity: 0.9;
+      text-align: center;
+    }
+
+    /* Filters Bar */
+    .filters-bar {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 20px 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #495057;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-btn:hover {
+      background: #e9ecef;
+      transform: translateY(-2px);
+    }
+
+    .filter-btn.active {
+      background: var(--gradient);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 250px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 20px 10px 45px;
+      border: 1px solid #dee2e6;
+      border-radius: 20px;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+    }
+
+    /* Alerts Table */
+    .alerts-table-container {
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 40px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .alerts-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 1000px;
+    }
+
+    .alerts-table thead {
+      background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+    }
+
+    .alerts-table th {
+      padding: 20px 15px;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border: none;
+      text-align: center;
+      position: relative;
+    }
+
+    .alerts-table th:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 25%;
+      height: 50%;
+      width: 1px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .alerts-table tbody tr {
+      border-bottom: 1px solid #eef2f7;
+      transition: var(--transition);
+    }
+
+    .alerts-table tbody tr:hover {
+      background: #f8fafc;
+      transform: translateY(-2px);
+    }
+
+    .alerts-table td {
+      padding: 15px;
+      border: none;
+      color: #2d3436;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .alert-id {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 15px;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: inline-block;
+      min-width: 100px;
+    }
+
+    .status-critical {
+      background: linear-gradient(to right, #e63946, #d00000);
+      color: white;
+      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+    }
+
+    .status-high {
+      background: linear-gradient(to right, #ff9e00, #ff6b00);
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 158, 0, 0.3);
+    }
+
+    .status-medium {
+      background: linear-gradient(to right, #00b4d8, #0096c7);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+    }
+
+    .status-low {
+      background: linear-gradient(to right, #2ecc71, #27ae60);
+      color: white;
+      box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+    }
+
+    /* Location Cell */
+    .location-cell {
+      font-family: 'Courier New', monospace;
+      background: #f8f9fa;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+      font-size: 13px;
+      color: #2c3e50;
+      max-width: 200px;
+      margin: 0 auto;
+      word-break: break-all;
+    }
+
+    /* Time Cell */
+    .time-cell {
+      color: #636e72;
+      font-weight: 600;
+      background: #f8f9fa;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+      min-width: 160px;
+    }
+
+    /* Image Container */
+    .image-container {
+      width: 100px;
+      height: 70px;
+      margin: 0 auto;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 3px solid #eef2f7;
+      transition: var(--transition);
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .image-container:hover {
+      transform: scale(1.05);
+      border-color: var(--primary);
+    }
+
+    .detected-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .image-container:hover .detected-image {
+      transform: scale(1.1);
+    }
+
+    .no-image {
+      color: #95a5a6;
+      font-style: italic;
+      font-size: 12px;
+      padding: 10px;
+    }
+
+    .image-error {
+      color: #e63946;
+      font-size: 11px;
+      padding: 5px;
+    }
+
+    /* No Alerts Message */
+    .no-alerts-message {
+      text-align: center;
+      padding: 60px 20px;
+      color: #6c757d;
+    }
+
+    .no-alerts-icon {
+      font-size: 60px;
+      color: #dee2e6;
+      margin-bottom: 20px;
+    }
+
+    .no-alerts-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #495057;
+    }
+
+    .no-alerts-text {
+      font-size: 16px;
+      margin-bottom: 30px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Footer */
+    .table-footer {
+      background: #f8f9fa;
+      padding: 20px 30px;
+      border-top: 1px solid #eef2e6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #6c757d;
+      font-size: 14px;
+    }
+
+    .timestamp {
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    /* Pagination */
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .pagination {
+      display: flex;
+      gap: 5px;
+    }
+
+    .page-item {
+      list-style: none;
+    }
+
+    .page-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: white;
+      border: 1px solid #dee2e6;
+      color: #495057;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .page-link:hover {
+      background: #f8f9fa;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .page-link.active {
+      background: var(--gradient);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .dashboard-container {
+        padding: 0 20px 30px;
+      }
+
+      .alerts-header {
+        padding: 30px 25px;
+      }
+
+      .alerts-text h1 {
+        font-size: 32px;
+      }
+
+      .alerts-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+      }
+
+      .alerts-count {
+        font-size: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 70px;
+      }
+
+      .header-container {
+        padding: 0 20px;
+      }
+
+      .alerts-header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .alerts-title-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+
+      .alerts-text h1 {
+        font-size: 28px;
+      }
+
+      .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-group {
+        justify-content: center;
+      }
+
+      .search-box {
+        min-width: 100%;
+      }
+
+      .alerts-table th,
+      .alerts-table td {
+        padding: 12px 8px;
+        font-size: 13px;
+      }
+
+      .status-badge {
+        min-width: 80px;
+        padding: 6px 12px;
+        font-size: 11px;
+      }
+
+      .image-container {
+        width: 80px;
+        height: 60px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .police-header {
+        height: 70px;
+      }
+
+      .header-container {
+        height: 70px;
+        padding: 0 15px;
+      }
+
+      .brand-logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      .brand-logo i {
+        font-size: 20px;
+      }
+
+      .alerts-header {
+        padding: 25px 20px;
+        margin: 0 15px 20px;
+        border-radius: 12px;
+      }
+
+      .alerts-stats {
+        padding: 15px 20px;
+      }
+
+      .alerts-count {
+        font-size: 36px;
+      }
+
+      .filter-btn {
+        padding: 6px 15px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {% include 'police_header.html' %}
+  <br><br><br>
+
+  <div class="dashboard-container">
+    <!-- Alerts Header -->
+    <div class="alerts-header">
+      <div class="alerts-header-content">
+        <div class="alerts-title-section">
+          <div class="alerts-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="alerts-text">
+            <h1>Emergency Alerts Dashboard</h1>
+            <p>Monitor all vehicle alerts and emergency notifications in real-time. Take immediate action on critical incidents.</p>
+          </div>
+        </div>
+        <div class="alerts-stats">
+          <div class="alerts-count">{{ alerts|length }}</div>
+          <div class="alerts-label">ACTIVE ALERTS</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters Bar -->
+    <div class="filters-bar">
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">
+          <i class="fas fa-layer-group"></i>
+          All Alerts
+        </button>
+        <button class="filter-btn" data-filter="critical">
+          <i class="fas fa-exclamation-circle"></i>
+          Critical
+        </button>
+        <button class="filter-btn" data-filter="high">
+          <i class="fas fa-exclamation-triangle"></i>
+          High
+        </button>
+        <button class="filter-btn" data-filter="medium">
+          <i class="fas fa-info-circle"></i>
+          Medium
+        </button>
+        <button class="filter-btn" data-filter="low">
+          <i class="fas fa-check-circle"></i>
+          Low
+        </button>
+      </div>
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search alerts by ID or location...">
+      </div>
+    </div>
+
+    <!-- Alerts Table -->
+    <div class="alerts-table-container">
+      <div class="table-responsive">
+        <table class="alerts-table">
+          <thead>
+            <tr>
+              <th>Alert ID</th>
+              <th>Status</th>
+              <th>Location</th>
+              <th>Detected Time</th>
+              <th>Visual Evidence</th>
+            </tr>
+          </thead>
+          <tbody id="alertsTableBody">
+            {% for alert in alerts %}
+            <tr class="alert-row" data-status="{{ alert.status|lower }}">
+              <td>
+                <div class="alert-id">#{{ alert.id|stringformat:"04d" }}</div>
+              </td>
+              <td>
+                {% if alert.status == 'critical' %}
+                  <span class="status-badge status-critical">{{ alert.status }}</span>
+                {% elif alert.status == 'high' %}
+                  <span class="status-badge status-high">{{ alert.status }}</span>
+                {% elif alert.status == 'medium' %}
+                  <span class="status-badge status-medium">{{ alert.status }}</span>
+                {% elif alert.status == 'low' %}
+                  <span class="status-badge status-low">{{ alert.status }}</span>
+                {% else %}
+                  <span class="status-badge status-medium">{{ alert.status }}</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if alert.latitude and alert.longitude %}
+                  <div class="location-cell">
+                    {{ alert.latitude|floatformat:6 }}, {{ alert.longitude|floatformat:6 }}
+                  </div>
+                {% else %}
+                  <span style="color: #95a5a6; font-style: italic;">— No Location —</span>
+                {% endif %}
+              </td>
+              <td>
+                <div class="time-cell">
+                  {{ alert.detected_at|date:"d M Y, H:i:s" }}
+                </div>
+              </td>
+              <td>
+                <div class="image-container" onclick="showImage('{{ alert.id }}')">
+                  {% if alert.detected_image %}
+                    {% if alert.detected_image.url %}
+                      <img src="{{ alert.detected_image.url }}"
+                           alt="Alert #{{ alert.id }}"
+                           class="detected-image"
+                           onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span class=\'image-error\'>Failed to load</span>';">
+                    {% elif alert.detected_image|slice:":4" == "http" %}
+                      <img src="{{ alert.detected_image }}"
+                           alt="Alert #{{ alert.id }}"
+                           class="detected-image"
+                           onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span class=\'image-error\'>Failed to load</span>';">
+                    {% else %}
+                      <img src="/media/{{ alert.detected_image }}"
+                           alt="Alert #{{ alert.id }}"
+                           class="detected-image"
+                           onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span class=\'image-error\'>Failed to load</span>';">
+                    {% endif %}
+                  {% else %}
+                    <span class="no-image">No Image</span>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5">
+                <div class="no-alerts-message">
+                  <div class="no-alerts-icon">
+                    <i class="fas fa-check-circle"></i>
+                  </div>
+                  <h3 class="no-alerts-title">All Clear!</h3>
+                  <p class="no-alerts-text">No active alerts at the moment. All systems are functioning normally.</p>
+                  <button class="btn-service" style="background: var(--gradient); color: white; border: none; padding: 12px 30px; border-radius: 10px; font-weight: 600; cursor: pointer;">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Alerts
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <div class="last-updated">
+          Last updated: <span class="timestamp">{{ current_time|date:"d M Y, H:i:s" }}</span>
+        </div>
+        <div class="system-status">
+          <i class="fas fa-circle" style="color: #2ecc71; font-size: 12px;"></i>
+          Live Monitoring Active
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="#">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link active" href="#">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">3</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Filter functionality
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const alertRows = document.querySelectorAll('.alert-row');
+      const searchInput = document.getElementById('searchInput');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Remove active class from all buttons
+          filterBtns.forEach(b => b.classList.remove('active'));
+
+          // Add active class to clicked button
+          this.classList.add('active');
+
+          const filter = this.dataset.filter;
+
+          // Filter rows
+          alertRows.forEach(row => {
+            if (filter === 'all' || row.dataset.status === filter) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Search functionality
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+
+        alertRows.forEach(row => {
+          const id = row.querySelector('.alert-id').textContent.toLowerCase();
+          const location = row.querySelector('.location-cell')?.textContent.toLowerCase() || '';
+
+          if (id.includes(searchTerm) || location.includes(searchTerm)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+
+      // Auto-refresh every 30 seconds
+      setInterval(() => {
+        location.reload();
+      }, 30000);
+
+      // Add emergency alert sound for critical alerts
+      function checkCriticalAlerts() {
+        const criticalAlerts = document.querySelectorAll('.status-critical');
+        if (criticalAlerts.length > 0 && !sessionStorage.getItem('alertPlayed')) {
+          // You could add an alert sound here
+          console.log('Critical alerts detected:', criticalAlerts.length);
+          sessionStorage.setItem('alertPlayed', 'true');
+        }
+      }
+
+      checkCriticalAlerts();
+    });
+
+    function showImage(alertId) {
+      // This function would open a modal with the full-size image
+      // For now, just log to console
+      console.log('Showing image for alert:', alertId);
+
+      // In a real implementation, you would:
+      // 1. Fetch the full-size image
+      // 2. Open a modal with the image
+      // 3. Add image controls (zoom, download, etc.)
+    }
+  </script>
+
+  {% include 'footer.html' %}
+</body>
+</html>

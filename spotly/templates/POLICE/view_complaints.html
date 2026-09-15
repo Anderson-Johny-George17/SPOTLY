@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sent Complaints - Police Portal</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- DataTables CSS -->
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #7209b7;
+      --success: #4cc9f0;
+      --danger: #e63946;
+      --warning: #ff9e00;
+      --info: #00b4d8;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --border-radius: 16px;
+      --shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      --gradient: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fb 0%, #e9ecef 100%);
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px 40px;
+    }
+
+    /* Header Card */
+    .header-card {
+      background: var(--gradient);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      color: white;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-content h1 {
+      font-weight: 700;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header-content p {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 0;
+    }
+
+    .header-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    /* Filter Card */
+    .filter-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+      border: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    .filter-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .filter-header i {
+      color: var(--primary);
+      font-size: 20px;
+    }
+
+    .filter-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin: 0;
+    }
+
+    .date-input-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .date-input {
+      flex: 1;
+    }
+
+    .date-input label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .date-input input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .date-input input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+      outline: none;
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-apply, .btn-reset {
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-apply {
+      background: var(--gradient);
+      color: white;
+    }
+
+    .btn-apply:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.25);
+    }
+
+    .btn-reset {
+      background: #f8f9fa;
+      color: var(--dark);
+      border: 1px solid #e9ecef;
+    }
+
+    .btn-reset:hover {
+      background: #e9ecef;
+      transform: translateY(-2px);
+    }
+
+    /* Table Card */
+    .table-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .table-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .table-header i {
+      color: var(--primary);
+    }
+
+    /* DataTables Custom Styling */
+    #complaintTable_wrapper {
+      position: relative;
+    }
+
+    #complaintTable {
+      width: 100% !important;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    #complaintTable thead th {
+      background: #f8f9ff;
+      color: var(--dark);
+      font-weight: 600;
+      padding: 15px;
+      border-bottom: 2px solid rgba(67, 97, 238, 0.1);
+    }
+
+    #complaintTable tbody td {
+      padding: 15px;
+      border-bottom: 1px solid #f1f3f9;
+      vertical-align: middle;
+    }
+
+    #complaintTable tbody tr {
+      transition: var(--transition);
+    }
+
+    #complaintTable tbody tr:hover {
+      background-color: #f8f9ff;
+    }
+
+    #complaintTable tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Status Badges */
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .badge-pending {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+
+    .badge-replied {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .badge-processing {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-accept {
+      background: #28a745;
+      color: white;
+      border: none;
+    }
+
+    .btn-accept:hover {
+      background: #218838;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+      color: white;
+    }
+
+    .btn-reject {
+      background: #e63946;
+      color: white;
+      border: none;
+    }
+
+    .btn-reject:hover {
+      background: #d00000;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+      color: white;
+    }
+
+    .btn-reply {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .btn-reply:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+      color: white;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      background: #f8f9ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+      color: var(--primary);
+    }
+
+    .empty-state h4 {
+      font-size: 18px;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .empty-state p {
+      color: #6c757d;
+      margin-bottom: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 0 20px 30px;
+      }
+
+      .header-card {
+        padding: 25px 20px;
+      }
+
+      .header-content h1 {
+        font-size: 28px;
+      }
+
+      .date-input-group {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .filter-actions {
+        justify-content: center;
+      }
+
+      .table-responsive {
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      #complaintTable thead {
+        display: none;
+      }
+
+      #complaintTable tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      #complaintTable tbody td {
+        display: block;
+        text-align: right;
+        padding: 12px 15px;
+        border-bottom: 1px solid #f1f3f9;
+      }
+
+      #complaintTable tbody td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      #complaintTable tbody td:last-child {
+        border-bottom: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      body {
+        padding-top: 70px;
+      }
+
+      .dashboard-container {
+        padding: 0 15px 25px;
+      }
+
+      .header-card {
+        padding: 20px 15px;
+      }
+
+      .header-content h1 {
+        font-size: 24px;
+      }
+
+      .filter-card, .table-card {
+        padding: 20px 15px;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .btn-action {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  {% include 'police_header.html' %}
+  <br><br>
+
+  <div class="dashboard-container">
+    <!-- Header Card -->
+    <div class="header-card">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-paper-plane"></i>
+        </div>
+        <h1>Sent Complaints</h1>
+        <p>Track and manage all complaints you have submitted to higher authorities</p>
+      </div>
+    </div>
+
+    <!-- Filter Card -->
+    <div class="filter-card">
+      <div class="filter-header">
+        <i class="fas fa-filter"></i>
+        <h3>Filter Complaints</h3>
+      </div>
+
+      <div class="date-input-group">
+        <div class="date-input">
+          <label for="fromDate">From Date</label>
+          <input type="date" id="fromDate" class="form-control">
+        </div>
+        <div class="date-input">
+          <label for="toDate">To Date</label>
+          <input type="date" id="toDate" class="form-control">
+        </div>
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn-apply" id="applyFilter">
+          <i class="fas fa-check"></i> Apply Filter
+        </button>
+        <button class="btn-reset" id="resetFilter">
+          <i class="fas fa-redo"></i> Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Table Card -->
+    <div class="table-card">
+      <div class="table-header">
+        <h3><i class="fas fa-list"></i> Complaint Records</h3>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover" id="complaintTable">
+          <thead>
+            <tr>
+              <th>SL No.</th>
+              <th>Complaint</th>
+              <th>Date</th>
+              <th>Reply</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if data %}
+              {% for i in data %}
+              <tr>
+                <td data-label="SL No.">{{ forloop.counter }}</td>
+                <td data-label="Complaint">{{ i.complaint }}</td>
+                <td data-label="Date">{{ i.date }}</td>
+                <td data-label="Reply">
+                  {% if i.reply == 'pending' %}
+                    <span class="badge badge-pending">
+                      <i class="fas fa-clock"></i> Pending
+                    </span>
+                  {% elif i.status == 'replied' %}
+                    <span class="badge badge-replied">
+                      <i class="fas fa-check-circle"></i> {{ i.reply }}
+                    </span>
+                  {% else %}
+                    {{ i.reply }}
+                  {% endif %}
+                </td>
+                <td data-label="Status">
+                  {% if i.status == 'pending' %}
+                    <span class="badge badge-pending">
+                      <i class="fas fa-clock"></i> Pending
+                    </span>
+                  {% elif i.status == 'replied' %}
+                    <span class="badge badge-replied">
+                      <i class="fas fa-check-circle"></i> Replied
+                    </span>
+                  {% else %}
+                    <span class="badge badge-processing">
+                      <i class="fas fa-cog"></i> Processing
+                    </span>
+                  {% endif %}
+                </td>
+                <td data-label="Action">
+                  <div class="action-buttons">
+                    {% if i.reply == 'pending' %}
+                      <!-- Fixed: Changed to police_reply_get URL -->
+                      <a href="/myapp/police_reply_get/{{ i.id }}/" class="btn-action btn-reply">
+                        <i class="fas fa-reply"></i> Reply
+                      </a>
+                    {% endif %}
+                    {% if i.status != 'replied' %}
+                      <a href="/myapp/accept_user/{{ i.id }}/" class="btn-action btn-accept">
+                        <i class="fas fa-check"></i> Accept
+                      </a>
+                      <a href="/myapp/reject_user/{{ i.id }}/" class="btn-action btn-reject">
+                        <i class="fas fa-times"></i> Reject
+                      </a>
+                    {% endif %}
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <!-- Empty State -->
+              <tr>
+                <td colspan="6">
+                  <div class="empty-state">
+                    <div class="empty-icon">
+                      <i class="fas fa-inbox"></i>
+                    </div>
+                    <h4>No Complaints Found</h4>
+                    <p>You haven't submitted any complaints yet.</p>
+                  </div>
+                </td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      // Initialize DataTable
+      const table = $('#complaintTable').DataTable({
+        pageLength: 10,
+        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        language: {
+          search: "_INPUT_",
+          searchPlaceholder: "Search complaints...",
+          lengthMenu: "Show _MENU_ entries",
+          info: "Showing _START_ to _END_ of _TOTAL_ complaints",
+          infoEmpty: "No complaints found",
+          infoFiltered: "(filtered from _MAX_ total complaints)",
+          zeroRecords: "No matching complaints found",
+          paginate: {
+            first: "First",
+            last: "Last",
+            next: "Next",
+            previous: "Previous"
+          }
+        },
+        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>tip',
+        initComplete: function() {
+          // Add custom search input styling
+          $('.dataTables_filter input').addClass('form-control').attr('placeholder', 'Search complaints...');
+          $('.dataTables_length select').addClass('form-select');
+        }
+      });
+
+      // Set default dates (last 30 days)
+      const today = new Date();
+      const lastMonth = new Date();
+      lastMonth.setDate(lastMonth.getDate() - 30);
+
+      $('#fromDate').val(lastMonth.toISOString().split('T')[0]);
+      $('#toDate').val(today.toISOString().split('T')[0]);
+
+      // Apply filter button
+      $('#applyFilter').on('click', function() {
+        const fromDate = $('#fromDate').val();
+        const toDate = $('#toDate').val();
+
+        if (fromDate && toDate) {
+          table.draw();
+
+          // Show toast notification
+          showToast('Filter applied successfully!', 'success');
+        } else {
+          showToast('Please select both dates!', 'warning');
+        }
+      });
+
+      // Reset filter button
+      $('#resetFilter').on('click', function() {
+        $('#fromDate').val('');
+        $('#toDate').val('');
+        table.search('').draw();
+        showToast('Filter reset successfully!', 'info');
+      });
+
+      // Custom date range filtering
+      $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+        const fromDate = $('#fromDate').val();
+        const toDate = $('#toDate').val();
+
+        if (!fromDate && !toDate) {
+          return true; // No filter applied
+        }
+
+        const complaintDate = new Date(data[2]); // Date column index is 2 (0-based)
+
+        if (fromDate && !toDate) {
+          return complaintDate >= new Date(fromDate);
+        }
+
+        if (!fromDate && toDate) {
+          return complaintDate <= new Date(toDate);
+        }
+
+        return complaintDate >= new Date(fromDate) && complaintDate <= new Date(toDate);
+      });
+
+      // Toast notification function
+      function showToast(message, type) {
+        const toast = document.createElement('div');
+        toast.className = `toast-notification ${type}`;
+        toast.innerHTML = `
+          <div class="toast-icon">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+          </div>
+          <div class="toast-message">${message}</div>
+        `;
+
+        document.body.appendChild(toast);
+
+        // Add styles for toast
+        const toastStyle = document.createElement('style');
+        toastStyle.textContent = `
+          .toast-notification {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 9999;
+            animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+            border-left: 4px solid;
+            max-width: 350px;
+          }
+          .toast-notification.success {
+            border-left-color: #28a745;
+          }
+          .toast-notification.warning {
+            border-left-color: #ffc107;
+          }
+          .toast-notification.info {
+            border-left-color: #17a2b8;
+          }
+          .toast-icon {
+            font-size: 20px;
+          }
+          .toast-notification.success .toast-icon {
+            color: #28a745;
+          }
+          .toast-notification.warning .toast-icon {
+            color: #ffc107;
+          }
+          .toast-notification.info .toast-icon {
+            color: #17a2b8;
+          }
+          .toast-message {
+            font-weight: 500;
+            color: var(--dark);
+          }
+          @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+          }
+          @keyframes fadeOut {
+            to { opacity: 0; transform: translateX(100%); }
+          }
+        `;
+        document.head.appendChild(toastStyle);
+
+        // Remove toast after animation
+        setTimeout(() => {
+          toast.remove();
+          toastStyle.remove();
+        }, 3000);
+      }
+
+      // Add row hover effects
+      $('#complaintTable tbody tr').hover(
+        function() {
+          $(this).css('transform', 'translateY(-2px)');
+          $(this).css('box-shadow', '0 5px 15px rgba(0, 0, 0, 0.05)');
+        },
+        function() {
+          $(this).css('transform', 'translateY(0)');
+          $(this).css('box-shadow', 'none');
+        }
+      );
+    });
+  </script>
+</body>
+</html>

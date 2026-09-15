@@ -1,0 +1,661 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>View Feedback</title>#}
+{#    <style>#}
+{#        body {#}
+{#            font-family: Arial, sans-serif;#}
+{#            background: #f4f6f8;#}
+{#            padding: 20px;#}
+{#        }#}
+{#        h2 {#}
+{#            text-align: center;#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{#        table {#}
+{#            width: 100%;#}
+{#            border-collapse: collapse;#}
+{#            background: #fff;#}
+{#        }#}
+{#        th, td {#}
+{#            padding: 10px;#}
+{#            border: 1px solid #ddd;#}
+{#            text-align: left;#}
+{#        }#}
+{#        th {#}
+{#            background: #2c3e50;#}
+{#            color: white;#}
+{#        }#}
+{#        tr:nth-child(even) {#}
+{#            background: #f9f9f9;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#<h2>Feedback List</h2>#}
+{##}
+{#<table>#}
+{#    <thead>#}
+{#        <tr>#}
+{#            <th>#</th>#}
+{#            <th>Name</th>#}
+{#            <th>Date</th>#}
+{#            <th>Feedback</th>#}
+{#            <th>Customer ID</th>#}
+{#        </tr>#}
+{#    </thead>#}
+{#    <tbody>#}
+{#        {% for f in feedbacks %}#}
+{#        <tr>#}
+{#            <td>{{ forloop.counter }}</td>#}
+{#            <td>{{ f.name }}</td>#}
+{#            <td>{{ f.date }}</td>#}
+{#            <td>{{ f.feedback }}</td>#}
+{#            <td>{{ f.CUSTOMER.id }}</td>#}
+{#        </tr>#}
+{#        {% empty %}#}
+{#        <tr>#}
+{#            <td colspan="5" style="text-align:center;">No feedback available</td>#}
+{#        </tr>#}
+{#        {% endfor %}#}
+{#    </tbody>#}
+{#</table>#}
+{##}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Feedback</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --border-radius: 12px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1400px;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius);
+            padding: 30px;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .page-header h1 {
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            opacity: 0.9;
+            margin-bottom: 0;
+            font-size: 16px;
+        }
+
+        .header-icon {
+            font-size: 40px;
+            margin-right: 20px;
+            opacity: 0.9;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            border-radius: 50%;
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+            display: inline-block;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f2f5;
+        }
+
+        .table-header h3 {
+            margin: 0;
+            color: var(--dark-color);
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .table-header h3 i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        /* Table Styling */
+        #feedbackTable {
+            margin: 0 !important;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        #feedbackTable thead th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 18px 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        #feedbackTable thead th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        #feedbackTable theach th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        #feedbackTable tbody td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: middle;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        #feedbackTable tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        #feedbackTable tbody tr:hover {
+            background-color: #f8f9ff !important;
+            transform: translateX(5px);
+        }
+
+        /* Feedback Text */
+        .feedback-text {
+            max-width: 400px;
+            line-height: 1.6;
+            color: #495057;
+            position: relative;
+        }
+
+        .feedback-text.expanded {
+            max-width: none;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 10px;
+            display: inline-block;
+            background: rgba(67, 97, 238, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            background: rgba(67, 97, 238, 0.2);
+        }
+
+        /* Customer ID Badge */
+        .customer-badge {
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        /* Date Styling */
+        .date-cell {
+            font-weight: 600;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #dee2e6;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h4 {
+            color: #6c757d;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .empty-state p {
+            color: #adb5bd;
+            margin-bottom: 0;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-view {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+        }
+
+        .btn-view:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-delete {
+            background: rgba(230, 57, 70, 0.1);
+            color: #e63946;
+        }
+
+        .btn-delete:hover {
+            background: #e63946;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .page-header {
+                padding: 20px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .table-container {
+                padding: 15px;
+            }
+
+            #feedbackTable_wrapper {
+                overflow-x: auto;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-comments header-icon"></i>
+                <div>
+                    <h1>Customer Feedback</h1>
+                    <p>View and manage all customer feedback submissions</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number" id="totalCustomers">
+                    {{ feedbacks|length|default:0 }}
+                </div>
+                <div class="stat-label">Total Feedbacks</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-number" id="todayFeedbacks">
+                    {{ today_count|default:"0" }}
+                </div>
+                <div class="stat-label">Today's Feedbacks</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-number" id="avgRating">
+                    4.8
+                </div>
+                <div class="stat-label">Avg. Rating</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-number" id="growthRate">
+                    +12%
+                </div>
+                <div class="stat-label">Monthly Growth</div>
+            </div>
+        </div>
+
+        <!-- Feedback Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h3><i class="fas fa-list"></i> Feedback List</h3>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="input-group" style="max-width: 300px;">
+                        <span class="input-group-text bg-transparent border-end-0">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Search feedback...">
+                    </div>
+                    <button class="btn btn-primary" id="exportBtn">
+                        <i class="fas fa-download me-2"></i>Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover" id="feedbackTable">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th width="15%">Name</th>
+                            <th width="15%">Date</th>
+                            <th width="45%">Feedback</th>
+                            <th width="20%">Customer ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for f in feedbacks %}
+                        <tr>
+                            <td class="fw-semibold">{{ forloop.counter }}</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="avatar-placeholder">
+                                        <i class="fas fa-user-circle text-primary" style="font-size: 24px;"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-medium">{{ f.name }}</div>
+                                        <small class="text-muted">Customer</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="date-cell">{{ f.date }}</td>
+                            <td>
+                                <div class="feedback-text" id="feedback-{{ forloop.counter }}">
+                                    {{ f.feedback|truncatechars:150 }}
+                                </div>
+                                {% if f.feedback|length > 150 %}
+                                <span class="read-more" onclick="toggleFeedback({{ forloop.counter }})">
+                                    Read More
+                                </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="customer-badge">
+                                    <i class="fas fa-id-card me-1"></i>#{{ f.CUSTOMER.id }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <i class="fas fa-comment-slash"></i>
+                                    <h4>No Feedback Available</h4>
+                                    <p>There are no customer feedback submissions to display.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+            const table = $('#feedbackTable').DataTable({
+                pageLength: 10,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search feedback...",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ feedback",
+                    infoEmpty: "No feedback available",
+                    paginate: {
+                        previous: '<i class="fas fa-chevron-left"></i>',
+                        next: '<i class="fas fa-chevron-right"></i>'
+                    }
+                },
+                order: [[2, 'desc']], // Sort by date descending
+                initComplete: function() {
+                    updateTableInfo();
+                }
+            });
+
+            // Search functionality
+            $('#searchInput').on('keyup', function() {
+                table.search(this.value).draw();
+                updateTableInfo();
+            });
+
+            // Export button
+            $('#exportBtn').on('click', function() {
+                alert('Export functionality would be implemented here');
+                // In a real application, this would generate a CSV/Excel file
+            });
+
+            // Update table info
+            function updateTableInfo() {
+                const info = table.page.info();
+                const total = info.recordsDisplay;
+                document.querySelector('#totalCustomers').textContent = total;
+            }
+        });
+
+        // Toggle feedback text
+        function toggleFeedback(id) {
+            const feedbackElement = document.getElementById(`feedback-${id}`);
+            const button = feedbackElement.nextElementSibling;
+
+            if (feedbackElement.classList.contains('expanded')) {
+                feedbackElement.classList.remove('expanded');
+                feedbackElement.textContent = feedbackElement.textContent.substring(0, 150) + '...';
+                button.textContent = 'Read More';
+            } else {
+                // Get full feedback text (you would need to store this in a data attribute)
+                const fullText = feedbackElement.getAttribute('data-full') ||
+                    feedbackElement.textContent.replace('...', '');
+                feedbackElement.textContent = fullText;
+                feedbackElement.classList.add('expanded');
+                button.textContent = 'Read Less';
+            }
+        }
+
+        // Add hover effect to table rows
+        $(document).on('mouseenter', '#feedbackTable tbody tr', function() {
+            $(this).css('transform', 'translateX(5px)');
+        }).on('mouseleave', '#feedbackTable tbody tr', function() {
+            $(this).css('transform', 'translateX(0)');
+        });
+    </script>
+</body>
+</html>

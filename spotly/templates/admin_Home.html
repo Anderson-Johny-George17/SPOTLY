@@ -1,0 +1,1036 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#  <meta charset="UTF-8">#}
+{#  <title>Police Portal</title>#}
+{#  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">#}
+{#</head>#}
+{#<body>#}
+{##}
+{#<!-- Navbar -->#}
+{#<nav class="navbar navbar-expand-lg navbar-dark bg-dark">#}
+{#  <a class="navbar-brand" href="#">Police Portal</a>#}
+{#  <button class="navbar-toggler" type="button" data-toggle="collapse"#}
+{#          data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"#}
+{#          aria-label="Toggle navigation">#}
+{#    <span class="navbar-toggler-icon"></span>#}
+{#  </button>#}
+{#</nav>#}
+{##}
+{#<!-- Hero Section -->#}
+{#<div class="jumbotron text-center bg-primary text-white">#}
+{#  <h1 class="display-4">Welcome, Master</h1>#}
+{#  <p class="lead">Manage police records, complaints, and security with ease.</p>#}
+{#</div>#}
+{##}
+{#<!-- Cards Section -->#}
+{#<div class="container">#}
+{#  <div class="row">#}
+{#    <!-- Add Police -->#}
+{#    <div class="col-md-3">#}
+{#      <div class="card shadow-sm">#}
+{#        <div class="card-body text-center">#}
+{#          <h5 class="card-title">Add Police</h5>#}
+{#          <p class="card-text">Register new police personnel.</p>#}
+{#          <a href="/myapp/reg_policer_get/" class="btn btn-primary">Go</a>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#    <!-- View Police -->#}
+{#    <div class="col-md-3">#}
+{#      <div class="card shadow-sm">#}
+{#        <div class="card-body text-center">#}
+{#          <h5 class="card-title">View Police</h5>#}
+{#          <p class="card-text">Browse registered police records.</p>#}
+{#          <a href="/myapp/view_police/" class="btn btn-primary">Go</a>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#    <!-- Change Password -->#}
+{#    <div class="col-md-3">#}
+{#      <div class="card shadow-sm">#}
+{#        <div class="card-body text-center">#}
+{#          <h5 class="card-title">Change Password</h5>#}
+{#          <p class="card-text">Update your login credentials.</p>#}
+{#          <a href="/myapp/change_pass_get/" class="btn btn-primary">Go</a>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#    <!-- View Complaint -->#}
+{#    <div class="col-md-3">#}
+{#      <div class="card shadow-sm">#}
+{#        <div class="card-body text-center">#}
+{#          <h5 class="card-title">View Complaint</h5>#}
+{#          <p class="card-text">Check submitted complaints.</p>#}
+{#          <a href="/myapp/view_complaint/" class="btn btn-primary">Go</a>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
+{#<div class="container">#}
+{#  <div class="row">#}
+{##}
+{#    <!-- view user -->#}
+{#    <div class="col-md-3">#}
+{#      <div class="card shadow-sm">#}
+{#        <div class="card-body text-center">#}
+{#          <h5 class="card-title">view uses</h5>#}
+{#          <p class="card-text"> vieew user personnel.</p>#}
+{#          <a href="/myapp/view_users_get/" class="btn btn-primary">Go</a>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#<!-- Footer -->#}
+{#<footer class="bg-dark text-white text-center py-3 mt-4">#}
+{#  <p>&copy; 2025 Spotly | Secure & Efficient</p>#}
+{#</footer>#}
+{##}
+{#<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>#}
+{#<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>#}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - Spotly</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #7209b7;
+      --success: #4cc9f0;
+      --info: #4895ef;
+      --warning: #f8961e;
+      --danger: #e63946;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 16px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --gradient: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fb 0%, #e9ecef 100%);
+      min-height: 100vh;
+      color: var(--dark);
+      padding-top: 70px; /* Header height */
+    }
+
+    .container-fluid {
+      padding: 0 20px;
+    }
+
+    /* Header Styles (using your design) */
+    .admin-header {
+      background: blue;
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+      height: 70px;
+      border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+      padding: 0 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+    }
+
+    .brand-logo i {
+      font-size: 20px;
+      color: white;
+    }
+
+    .brand-name {
+      font-size: 22px;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Welcome Banner */
+    .welcome-banner {
+      background: var(--gradient);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin-bottom: 30px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(67, 97, 238, 0.25);
+    }
+
+    .welcome-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .welcome-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      right: 10%;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+    }
+
+    .welcome-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .welcome-content h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .welcome-content p {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 0;
+      max-width: 600px;
+    }
+
+    .date-time {
+      position: absolute;
+      right: 40px;
+      bottom: 40px;
+      text-align: right;
+      z-index: 1;
+    }
+
+    .date-time .date {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .date-time .time {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+    }
+
+    .stat-card.users::before { background: linear-gradient(90deg, #4361ee, #4895ef); }
+    .stat-card.complaints::before { background: linear-gradient(90deg, #7209b7, #b5179e); }
+    .stat-card.police::before { background: linear-gradient(90deg, #f8961e, #f9c74f); }
+    .stat-card.resolved::before { background: linear-gradient(90deg, #4cc9f0, #56cfc1); }
+
+    .stat-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: white;
+    }
+
+    .stat-icon.users { background: linear-gradient(135deg, #4361ee, #4895ef); }
+    .stat-icon.complaints { background: linear-gradient(135deg, #7209b7, #b5179e); }
+    .stat-icon.police { background: linear-gradient(135deg, #f8961e, #f9c74f); }
+    .stat-icon.resolved { background: linear-gradient(135deg, #4cc9f0, #56cfc1); }
+
+    .stat-info h3 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: var(--dark);
+    }
+
+    .stat-info p {
+      color: var(--gray);
+      font-size: 14px;
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .trend-up { color: #28a745; }
+    .trend-down { color: var(--danger); }
+
+    /* Charts Section */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .chart-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .chart-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--dark);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+
+    /* Recent Activity */
+    .activity-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .activity-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+
+    .activity-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--light-gray);
+      transition: var(--transition);
+    }
+
+    .activity-item:hover {
+      background: rgba(67, 97, 238, 0.03);
+      padding-left: 10px;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .activity-icon.user { background: var(--primary); }
+    .activity-icon.complaint { background: var(--secondary); }
+    .activity-icon.police { background: var(--warning); }
+    .activity-icon.resolved { background: var(--success); }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-text {
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .action-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .action-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 28px;
+      color: white;
+      transition: var(--transition);
+    }
+
+    .action-card:hover .action-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .action-card h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .action-card p {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 0;
+    }
+
+    /* Footer */
+    .dashboard-footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--gray);
+      font-size: 14px;
+      border-top: 1px solid var(--light-gray);
+      margin-top: 40px;
+    }
+
+    .dashboard-footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .dashboard-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 15px;
+      }
+
+      .welcome-banner {
+        padding: 30px 20px;
+        text-align: center;
+      }
+
+      .date-time {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-card {
+        padding: 20px;
+      }
+
+      .chart-container {
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .header-container {
+        padding: 0 15px;
+      }
+
+      .brand-name {
+        font-size: 18px;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+  </style>
+</head>
+
+<body>
+{% include 'admin_header.html' %}
+<br><br>
+  <!-- Admin Header -->
+{#  <header class="admin-header">#}
+{#    <div class="header-container">#}
+{#      <!-- Left: Brand -->#}
+{#      <div class="brand-section">#}
+{#        <div class="brand-logo">#}
+{#          <i class="fas fa-shield-alt"></i>#}
+{#        </div>#}
+{#        <div class="brand-name">SPOTLY ADMIN</div>#}
+{#      </div>#}
+{##}
+{#      <!-- Right: User Info -->#}
+{#      <div class="admin-info">#}
+{#        <div class="notification-badge">#}
+{#          <button class="notification-btn" id="notificationBtn">#}
+{#            <i class="fas fa-bell"></i>#}
+{#          </button>#}
+{#          <span class="badge-count pulse">3</span>#}
+{#        </div>#}
+{##}
+{#        <div class="admin-profile" id="profileDropdown">#}
+{#          <div class="profile-img">#}
+{#            <i class="fas fa-user-cog"></i>#}
+{#          </div>#}
+{#          <div class="profile-info">#}
+{#            <h6>Admin User</h6>#}
+{#            <p>Administrator</p>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </header>#}
+
+  <!-- Dashboard Content -->
+  <div class="dashboard-container">
+    <!-- Welcome Banner -->
+    <div class="welcome-banner fade-in">
+      <div class="welcome-content">
+        <h1>Welcome back, Admin!</h1>
+        <p>Here's what's happening with your Spotly system today. Manage users, monitor complaints, and oversee police registrations from this dashboard.</p>
+      </div>
+      <div class="date-time">
+        <div class="date" id="currentDate"></div>
+        <div class="time" id="currentTime"></div>
+      </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+      <div class="stat-card users fade-in">
+        <div class="stat-icon users">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-info">
+          <h3 id="totalUsers">{{ users_count }}</h3>
+          <p>Total Users</p>
+          <div class="stat-trend trend-up">
+            <i class="fas fa-arrow-up"></i>
+            <span>12% from last month</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card complaints fade-in" style="animation-delay: 0.1s">
+        <div class="stat-icon complaints">
+          <i class="fas fa-comment-dots"></i>
+        </div>
+        <div class="stat-info">
+          <h3 id="totalComplaints">{{ complaints_count }}</h3>
+          <p>Active Complaints</p>
+          <div class="stat-trend trend-down">
+            <i class="fas fa-arrow-down"></i>
+            <span>5% from last week</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card police fade-in" style="animation-delay: 0.2s">
+        <div class="stat-icon police">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <div class="stat-info">
+          <h3 id="totalPolice">{{ police_count }}</h3>
+          <p>Police Officers</p>
+          <div class="stat-trend trend-up">
+            <i class="fas fa-arrow-up"></i>
+            <span>3 new this week</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card resolved fade-in" style="animation-delay: 0.3s">
+        <div class="stat-icon resolved">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-info">
+          <h3 id="resolvedCases">92%</h3>
+          <p>Resolved Cases</p>
+          <div class="stat-trend trend-up">
+            <i class="fas fa-arrow-up"></i>
+            <span>4% improvement</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <a href="/myapp/reg_police_get/" class="action-card fade-in">
+        <div class="action-icon">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <h4>Add Police Officer</h4>
+        <p>Register new police officer to the system</p>
+      </a>
+
+      <a href="/myapp/view_complaint/" class="action-card fade-in" style="animation-delay: 0.1s">
+        <div class="action-icon">
+          <i class="fas fa-eye"></i>
+        </div>
+        <h4>View Complaints</h4>
+        <p>Monitor and manage user complaints</p>
+      </a>
+
+      <a href="/myapp/view_users_get/" class="action-card fade-in" style="animation-delay: 0.2s">
+        <div class="action-icon">
+          <i class="fas fa-users-cog"></i>
+        </div>
+        <h4>Manage Users</h4>
+        <p>View and manage system users</p>
+      </a>
+
+      <a href="/myapp/change_pass_get/" class="action-card fade-in" style="animation-delay: 0.3s">
+        <div class="action-icon">
+          <i class="fas fa-key"></i>
+        </div>
+        <h4>Change Password</h4>
+        <p>Update your admin password</p>
+      </a>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-grid">
+      <div class="chart-card fade-in">
+        <div class="chart-header">
+          <h3>Complaints Overview</h3>
+          <select id="complaintPeriod" class="form-select form-select-sm" style="width: auto;">
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="year">This Year</option>
+          </select>
+        </div>
+        <div class="chart-container">
+          <canvas id="complaintsChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card fade-in" style="animation-delay: 0.1s">
+        <div class="chart-header">
+          <h3>User Registration Trend</h3>
+          <select id="userPeriod" class="form-select form-select-sm" style="width: auto;">
+            <option value="month">Last 6 Months</option>
+            <option value="year">Last Year</option>
+          </select>
+        </div>
+        <div class="chart-container">
+          <canvas id="usersChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="activity-card fade-in">
+      <h3>Recent Activity</h3>
+      <ul class="activity-list">
+        <li class="activity-item">
+          <div class="activity-icon user">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-text">
+              <strong>New user registered:</strong> {{ last_user.name }}
+            </div>
+            <div class="activity-time">10 minutes ago</div>
+          </div>
+        </li>
+        <li class="activity-item">
+          <div class="activity-icon complaint">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-text">
+              <strong>New complaint submitted:</strong> {{ last_complaint.complaint }}
+            </div>
+            <div class="activity-time">45 minutes ago</div>
+          </div>
+        </li>
+        <li class="activity-item">
+          <div class="activity-icon police">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-text">
+              <strong>Police officer added:</strong> Officer {{ last_police.name }}
+            </div>
+            <div class="activity-time">2 hours ago</div>
+          </div>
+        </li>
+        <li class="activity-item">
+          <div class="activity-icon resolved">
+            <i class="fas fa-check"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-text">
+              <strong>Complaint resolved:</strong> Noise Pollution Case #234
+            </div>
+            <div class="activity-time">5 hours ago</div>
+          </div>
+        </li>
+        <li class="activity-item">
+          <div class="activity-icon user">
+            <i class="fas fa-user-clock"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-text">
+              <strong>User account suspended:</strong> spamming activity detected
+            </div>
+            <div class="activity-time">Yesterday, 3:45 PM</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="dashboard-footer">
+      <p>© 2024 Spotly Admin Dashboard. All rights reserved. |
+        <a href="#">Privacy Policy</a> |
+        <a href="#">Terms of Service</a>
+      </p>
+      <p>System Status: <span style="color: #28a745; font-weight: 500;">All Systems Operational</span></p>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update Date and Time
+      function updateDateTime() {
+        const now = new Date();
+
+        // Format date
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+
+        // Format time
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', timeOptions);
+      }
+
+      updateDateTime();
+      setInterval(updateDateTime, 1000);
+
+      // Complaints Chart
+      const complaintsCtx = document.getElementById('complaintsChart').getContext('2d');
+      const complaintsChart = new Chart(complaintsCtx, {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'Complaints',
+            data: [12, 19, 15, 25, 22, 18, 14],
+            borderColor: '#7209b7',
+            backgroundColor: 'rgba(114, 9, 183, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          }, {
+            label: 'Resolved',
+            data: [8, 12, 10, 18, 16, 15, 12],
+            borderColor: '#4cc9f0',
+            backgroundColor: 'rgba(76, 201, 240, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)'
+              }
+            },
+            x: {
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)'
+              }
+            }
+          }
+        }
+      });
+
+      // Users Chart
+      const usersCtx = document.getElementById('usersChart').getContext('2d');
+      const usersChart = new Chart(usersCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            label: 'New Users',
+            data: [120, 190, 150, 220, 180, 250],
+            backgroundColor: [
+              'rgba(67, 97, 238, 0.8)',
+              'rgba(67, 97, 238, 0.8)',
+              'rgba(67, 97, 238, 0.8)',
+              'rgba(67, 97, 238, 0.8)',
+              'rgba(67, 97, 238, 0.8)',
+              'rgba(67, 97, 238, 0.8)'
+            ],
+            borderColor: [
+              '#4361ee',
+              '#4361ee',
+              '#4361ee',
+              '#4361ee',
+              '#4361ee',
+              '#4361ee'
+            ],
+            borderWidth: 1,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+
+      // Chart period change handlers
+      document.getElementById('complaintPeriod').addEventListener('change', function(e) {
+        // In real app, you would fetch new data based on period
+        console.log('Complaint period changed to:', e.target.value);
+      });
+
+      document.getElementById('userPeriod').addEventListener('change', function(e) {
+        // In real app, you would fetch new data based on period
+        console.log('User period changed to:', e.target.value);
+      });
+
+      // Notification badge
+      const notificationBtn = document.getElementById('notificationBtn');
+      const badgeCount = document.querySelector('.badge-count');
+
+      notificationBtn.addEventListener('click', function() {
+        // Remove pulse animation and restart it
+        badgeCount.classList.remove('pulse');
+        setTimeout(() => badgeCount.classList.add('pulse'), 10);
+
+        // In real app, this would show notifications
+        alert('You have 3 new notifications:\n1. New user registration\n2. Complaint submitted\n3. System backup completed');
+      });
+
+      // Update stats with random data (simulating live updates)
+      function updateStats() {
+        // Random fluctuations for demo
+        const users = 1247 + Math.floor(Math.random() * 10);
+        const complaints = 89 + Math.floor(Math.random() * 5) - 2;
+        const police = 156 + Math.floor(Math.random() * 2);
+
+        document.getElementById('totalUsers').textContent = users.toLocaleString();
+        document.getElementById('totalComplaints').textContent = Math.max(0, complaints);
+        document.getElementById('totalPolice').textContent = police;
+      }
+
+      // Update stats every 30 seconds for demo
+      setInterval(updateStats, 30000);
+
+      // Add hover effect to stat cards
+      document.querySelectorAll('.stat-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
