@@ -21,7 +21,7 @@ django.setup()
 from myapp.models import Stolen_vehicle, Alert
 
 # ================= CONFIG =================
-GEMINI_API_KEY = "AIzaSyCJ8X-ygrPPhDdol_OghQcKTLDEtHsxJfo"
+GEMINI_API_KEY = "API-KEY"
 CAPTURE_SECONDS = 5
 VEHICLE_CLASSES = [2, 3, 5, 7]  # car, motorcycle, bus, truck
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "media")
